@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +69,6 @@ public class AppController {
     }
 
     @RequestMapping("/game_view/{gameId}")
-
     public Map<String, Object> gameViewDTO(@PathVariable Long gameId) {
         GamePlayer gamePlayer = gamePlayerRepo.getOne(gameId);
 
@@ -76,21 +76,21 @@ public class AppController {
         dto.put("id", gamePlayer.getGame().getId());
         dto.put("created", gamePlayer.getGame().getDate());
         dto.put("GamePlayers", gamePlayer.getGame().getGamePlayers().stream().map(gamePlayer1 -> gamePlayerDTO(gamePlayer1)).collect(Collectors.toList()));
+        dto.put("Ships",gamePlayer.getShips().stream().map(ship -> shipDTO(ship)).collect(Collectors.toList()));
 
         return dto;
     }
 
-//    @RequestMapping("/ships}")
-//
-//    public Map<String, Object> shipDTO
-//
-//    {
-//
-//        Map<String, Object> dto = new LinkedHashMap<String, Object>();
-//        dto.put("id", gamePlayer.getId());
-//
-//        return dto;
-//    }
+    @RequestMapping("/ships")
+    public Map<String, Object> shipDTO(Ship ship) {
+
+        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        dto.put("Ship_Id", ship.getId());
+        dto.put("Type", ship.getType());
+        dto.put("Ship_Location", ship.getMyLocation());
+
+        return dto;
+    }
 }
 
 
