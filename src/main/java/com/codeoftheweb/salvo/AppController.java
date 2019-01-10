@@ -1,12 +1,14 @@
 package com.codeoftheweb.salvo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -31,7 +33,6 @@ public class AppController {
     @RequestMapping("/games")
     public List<Object> getGame() {
         return gameRepo.findAll().stream().map(Game -> gameDTO(Game)).collect(toList());
-
     }
 
     private Map<String, Object> gameDTO(Game game) {
@@ -65,6 +66,31 @@ public class AppController {
     public List<GamePlayer> getGamePlayer() {
         return gamePlayerRepo.findAll();
     }
+
+    @RequestMapping("/game_view/{gameId}")
+
+    public Map<String, Object> gameViewDTO(@PathVariable Long gameId) {
+        GamePlayer gamePlayer = gamePlayerRepo.getOne(gameId);
+
+        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        dto.put("id", gamePlayer.getGame().getId());
+        dto.put("created", gamePlayer.getGame().getDate());
+        dto.put("GamePlayers", gamePlayer.getGame().getGamePlayers().stream().map(gamePlayer1 -> gamePlayerDTO(gamePlayer1)).collect(Collectors.toList()));
+
+        return dto;
+    }
+
+//    @RequestMapping("/ships}")
+//
+//    public Map<String, Object> shipDTO
+//
+//    {
+//
+//        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+//        dto.put("id", gamePlayer.getId());
+//
+//        return dto;
+//    }
 }
 
 
