@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
+
 @Entity
 public class GamePlayer {
 
@@ -19,7 +22,7 @@ public class GamePlayer {
     private Player player;
 
     @OneToMany(mappedBy="gamePlayer", fetch=FetchType.EAGER)
-    private Set<Ship> ships=new HashSet<>(); // proper way to initialize the set
+    private Set<Ship> ships = new HashSet<>(); // proper way to initialize the set
 
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -57,6 +60,11 @@ public class GamePlayer {
 
     public Set<Ship> getShips(){
         return this.ships;
+    }
+
+    public void addShip(Ship ship){
+        this.ships.add(ship);
+        ship.setGamePlayer(this);
     }
 
     @Override

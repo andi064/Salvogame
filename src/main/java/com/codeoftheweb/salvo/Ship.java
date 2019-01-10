@@ -18,13 +18,12 @@ public class Ship {
     private String type;
 
     @ElementCollection //read more abt this shit
-    @Column(name="myLocation")
+    @Column(name = "myLocation")
     private List<String> myLocation = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="gamePlayer_id")
+    @JoinColumn(name = "gamePlayer_id")
     private GamePlayer gamePlayer;
-
 
     public Ship() {
     }
@@ -58,7 +57,11 @@ public class Ship {
         this.myLocation = myLocation;
     }
 
-    public GamePlayer getGamePlayer(){
+    public GamePlayer getGamePlayer() {
         return gamePlayer;
+    }
+
+    public void setGamePlayer(GamePlayer gamePlayer){
+        this.gamePlayer = gamePlayer;
     }
 }
