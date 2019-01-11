@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +75,7 @@ public class AppController {
         dto.put("id", gamePlayer.getGame().getId());
         dto.put("created", gamePlayer.getGame().getDate());
         dto.put("GamePlayers", gamePlayer.getGame().getGamePlayers().stream().map(gamePlayer1 -> gamePlayerDTO(gamePlayer1)).collect(Collectors.toList()));
-        dto.put("Ships",gamePlayer.getShips().stream().map(ship -> shipDTO(ship)).collect(Collectors.toList()));
+        dto.put("Ships", gamePlayer.getShips().stream().map(ship -> shipDTO(ship)).collect(Collectors.toList()));
 
         return dto;
     }

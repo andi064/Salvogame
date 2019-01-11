@@ -64,24 +64,20 @@ public class SalvoApplication {
             battleshit.add("M1");
             battleshit.add("N1");
 
+            Ship sh1 = new Ship("p1_cruiser", cruiser);
+            Ship sh2 = new Ship("p1_destroyer", destroyer);
+            Ship sh3 = new Ship("p1_destroyer", cruiser1);
+            Ship sh4 = new Ship("p1_battleshit", battleshit);
 
-            Ship sh1 = new Ship("cruiser", cruiser);
-            Ship sh2 = new Ship("destroyer", destroyer);
-            Ship sh3 = new Ship("destroyer", cruiser1);
-            Ship sh4 = new Ship("battleshit", battleshit);
-
-            Ship sh5 = new Ship("cruiser", cruiser);
-            Ship sh6 = new Ship("destroyer", destroyer);
-            Ship sh7 = new Ship("destroyer", cruiser1);
-            Ship sh8 = new Ship("battleshit", battleshit);
-
-
-            // call a method to get set the ships to the gameplayer
-
+            Ship sh5 = new Ship("p2_cruiser", cruiser);
+            Ship sh6 = new Ship("p2_destroyer", destroyer);
+            Ship sh7 = new Ship("p2_destroyer", cruiser1);
+            Ship sh8 = new Ship("p2_battleshit", battleshit);
 
             // save a couple of gameplayers
 
             GamePlayer gp1 = new GamePlayer(g1, p1);
+            // call a method to get set the ships to the gameplayer
             gp1.addShip(sh1);
             gp1.addShip(sh2);
             gp1.addShip(sh3);
@@ -107,9 +103,6 @@ public class SalvoApplication {
             shipRepo.save(sh6);
             shipRepo.save(sh7);
             shipRepo.save(sh8);
-
-
-            System.out.println("it works biatchesssssss");
 
         };
     }
