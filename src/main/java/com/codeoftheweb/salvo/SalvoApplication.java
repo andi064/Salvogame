@@ -47,22 +47,22 @@ public class SalvoApplication {
             cruiser.add("B1");
 
             ArrayList<String> cruiser1 = new ArrayList<String>();
-            cruiser1.add("C1");//Adding object in arraylist
+            cruiser1.add("H3");//Adding object in arraylist
             cruiser1.add("D1");
 
             ArrayList<String> destroyer = new ArrayList<String>();
             destroyer.add("H1");//Adding object in arraylist
             destroyer.add("J1");
-            destroyer.add("K1");
+            destroyer.add("I1");
             destroyer.add("L1");
 
             ArrayList<String> battleshit = new ArrayList<String>();
-            battleshit.add("H1");//Adding object in arraylist
-            battleshit.add("J1");
-            battleshit.add("K1");
-            battleshit.add("L1");
-            battleshit.add("M1");
-            battleshit.add("N1");
+            battleshit.add("H2");//Adding object in arraylist
+            battleshit.add("J2");
+            battleshit.add("I2");
+            battleshit.add("L2");
+            battleshit.add("M2");
+            battleshit.add("N2");
 
             Ship sh1 = new Ship("p1_cruiser", cruiser);
             Ship sh2 = new Ship("p1_destroyer", destroyer);

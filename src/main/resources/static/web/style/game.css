@@ -8,3 +8,7 @@ width: 50px;
 #table {
     width: 500px;
 }
+
+.shipLoc {
+    background-color: red;
+}
