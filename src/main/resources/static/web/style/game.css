@@ -12,3 +12,10 @@ width: 50px;
 .shipLoc {
     background-color: red;
 }
+
+.thaGrids{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.cert.CollectionCertStoreParameters;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +77,7 @@ public class AppController {
         dto.put("created", gamePlayer.getGame().getDate());
         dto.put("GamePlayers", gamePlayer.getGame().getGamePlayers().stream().map(gamePlayer1 -> gamePlayerDTO(gamePlayer1)).collect(Collectors.toList()));
         dto.put("Ships", gamePlayer.getShips().stream().map(ship -> shipDTO(ship)).collect(Collectors.toList()));
+        dto.put("Salvos", gamePlayer.getSalvos().stream().map(salvo -> salvoDTO(salvo)).collect(Collectors.toList()));
 
         return dto;
     }
@@ -88,6 +90,16 @@ public class AppController {
         dto.put("Type", ship.getType());
         dto.put("Ship_Location", ship.getMyLocation());
 
+        return dto;
+    }
+
+    @RequestMapping("/salvos")
+    public Map<String, Object> salvoDTO(Salvo salvo) {
+
+        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        dto.put("Salvo_Id", salvo.getId());
+        dto.put("Turn", salvo.getTurn());
+        dto.put("Salvo_Location", salvo.getSalvoLocation());
         return dto;
     }
 }

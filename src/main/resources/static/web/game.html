@@ -3,22 +3,46 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Ship Location</title>
+    <title>Ship Locations</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
         crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style/game.css">
 </head>
 
 <body>
+    <div class="pageTitle">
+        <h1>Thy SalvoGame - Ship Location</h1>
+    </div>
     <div id="gameView">
-        
-        <table>
-            <tr v-for="letter,i in letters">
-                <td v-for = "number,j in numbers" v-bind:id="letter+number">
-                    <span v-if="j==0 || i==0">{{letter+number}}</span>
-                </td>
-            </tr>
-        </table>
+        <div class="playerDetails" v-if="fetchInfo.GamePlayers">
+            <h5 v-if="fetchInfo.GamePlayers.length==2">
+                <span v-if="gp==fetchInfo.GamePlayers[0].id">You {{fetchInfo.GamePlayers[0].player.userName}} VS
+                    {{fetchInfo.GamePlayers[1].player.userName}} </span>
+                <span v-else>{{fetchInfo.GamePlayers[0].player.userName}} VS
+                    {{fetchInfo.GamePlayers[1].player.userName}}
+                    You</span>
+            </h5>
+        </div>
+        <div class="thaGrids">
+        <div class="shipGrid">
+            <table>
+                <tr v-for="letter,i in letters">
+                    <td v-for="number,j in numbers" v-bind:id="letter+number">
+                        <span v-if="j==0 || i==0">{{letter+number}}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="salvoGrid">
+            <table>
+                <tr v-for="letter,k in letters">
+                    <td v-for="number,l in numbers" v-bind:id="letter+number">
+                        <span v-if="k==0 || l==0">{{letter+number}}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script type="text/javascript" src="script/game.js"></script>

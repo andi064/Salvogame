@@ -1,4 +1,7 @@
 package com.codeoftheweb.salvo;
 
-public class SalvoRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface SalvoRepository extends JpaRepository<Salvo, Long> {
+    Salvo findById(long id);
 }

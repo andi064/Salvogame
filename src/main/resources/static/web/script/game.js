@@ -3,7 +3,9 @@ let grid = new Vue({
     data: {
         letters: [" ", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
         numbers: [" ", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
-        fetchInfo: [],
+        fetchInfo: {},
+        player1: "",
+        player2: "",
         gp: ""
     },
     methods: {
@@ -22,6 +24,7 @@ let grid = new Vue({
                     grid.fetchInfo = data;
                     console.log(this.fetchInfo);
                     this.shipLocation_player(data);
+                   // this.playerDetails(data);
                 });
         },
         shipLocation_player(fetchInfo) {
@@ -32,10 +35,24 @@ let grid = new Vue({
                    document.getElementById(fetchInfo.Ships[i].Ship_Location[j]).className += "shipLoc";
                 }
             }
-        }
+        // },
+        // playerDetails(fetchInfo){
+        //     let playerInfo = fetchInfo.GamePlayers;
+        //     console.log(playerInfo[0].player.userName)
+        //     for(let i = 0; i < playerInfo.length; i++){
+        //         if(playerInfo[i].id == this.gp){
+        //             this.player1 = playerInfo[i].player.userName;
+        //             console.log(player1);
+        //         }else{
+        //             this.players2 = playerInfo[i].player.userName;
+        //             console.log(player1);
+
+        //         }
+        //     }
+
+         }
     },
     created() {
         this.getID();
-
     }
 });

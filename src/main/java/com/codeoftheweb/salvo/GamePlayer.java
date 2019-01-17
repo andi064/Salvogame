@@ -24,6 +24,9 @@ public class GamePlayer {
     @OneToMany(mappedBy="gamePlayer", fetch=FetchType.EAGER)
     private Set<Ship> ships = new HashSet<>(); // proper way to initialize the set
 
+    @OneToMany(mappedBy="gamePlayer", fetch=FetchType.EAGER)
+    private Set<Salvo> salvos = new HashSet<>(); // proper way to initialize the set
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="game_id")
@@ -67,12 +70,13 @@ public class GamePlayer {
         ship.setGamePlayer(this);
     }
 
-    @Override
-    public String toString() {
-        return "GamePlayer{" +
-                "id=" + id +
-                ", game=" + game +
-                ", player=" + player +
-                '}';
+    public Set<Salvo> getSalvos(){
+        return this.salvos;
     }
+    public void addSalvo(Salvo salvo){
+        this.salvos.add(salvo);
+        salvo.setGamePlayer(this);
+    }
+
+
 }
