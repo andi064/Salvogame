@@ -13,6 +13,10 @@ width: 50px;
     background-color: red;
 }
 
+.salvoLoc{
+    background-color: green;
+}
+
 .thaGrids{
     display: flex;
     flex-direction: row;

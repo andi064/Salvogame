@@ -78,6 +78,7 @@ public class AppController {
         dto.put("GamePlayers", gamePlayer.getGame().getGamePlayers().stream().map(gamePlayer1 -> gamePlayerDTO(gamePlayer1)).collect(Collectors.toList()));
         dto.put("Ships", gamePlayer.getShips().stream().map(ship -> shipDTO(ship)).collect(Collectors.toList()));
         dto.put("Salvos", gamePlayer.getSalvos().stream().map(salvo -> salvoDTO(salvo)).collect(Collectors.toList()));
+        dto.put("thyEnemySalvoes", thyEnemy(gamePlayer).getSalvos().stream().map(salvo -> salvoDTO(salvo)).collect(Collectors.toList()));
 
         return dto;
     }
@@ -101,6 +102,10 @@ public class AppController {
         dto.put("Turn", salvo.getTurn());
         dto.put("Salvo_Location", salvo.getSalvoLocation());
         return dto;
+    }
+
+    public GamePlayer thyEnemy (GamePlayer gamePlayer){
+        return gamePlayer.getGame().getGamePlayers().stream().filter(gamePlayer1 -> gamePlayer1.getId() !=gamePlayer.getId()).findAny().orElse(null);
     }
 }
 

@@ -1,0 +1,969 @@
+$(function () {
+
+        var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+        var numbers = ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+        var moreLetters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"];
+
+        var ships = [{
+            shipType: "carrier",
+            location: [],
+            length: "5"
+        }, {
+            shipType: "battleship",
+            location: [],
+            length: "4"
+        }, {
+            shipType: "submarine",
+            location: [],
+            length: "3"
+        }, {
+            shipType: "destroyer",
+            location: [],
+            length: "3"
+        }, {
+            shipType: "patrol",
+            location: [],
+            length: "2"
+        }];
+
+        var salvoes = [];
+
+        var preLocations = [];
+        var preSalvoes = [];
+
+        var salvoesAvailable = 3;
+
+        //Take de index of the ship when you click one to place it
+        var currentShip;
+
+        //Control var
+        var canSelect = false;
+
+        //Count the ships have in the Array
+        var shipsPlaced = 0;
+
+        var thisUserName = "";
+        var thisEnemyName = "";
+        var thisTurn = "";
+        var showPush = true;
+        var blurred = false;
+
+
+    //Init Functions///////////////
+
+        startFunctions();
+
+        /////////////////
+
+        function salvoesView() {
+
+            $('.grid .cells').toggleClass('miniCell');
+
+            $('.table1').removeClass('col-md-6').addClass('col-md-4');
+            $('.table2').removeClass('col-md-6').addClass('col-md-8');
+
+            $('.salvoes .cells').toggleClass('bigCell');
+
+        }
+
+        function placeShipsView() {
+
+            $('.grid .cells').toggleClass('bigCell');
+
+            $('.table1').removeClass('col-md-6').addClass('col-md-9');
+            $('.table2').removeClass('col-md-6').addClass('col-md-3');
+
+
+        }
+
+        function submitPreSalvoes(gameStatus) {
+
+
+            $('.salvoes').on('click', 'td', function () {
+
+                if (gameStatus == 0) {
+
+                    var hasPreSalvo = $(this).hasClass('hasPreSalvo');
+                    var hasSalvo = $(this).hasClass('hasSalvo');
+                    var hasHit = $(this).hasClass('hasShoted');
+                    var longCellId = $(this).attr('id');
+                    var cellId = longCellId.substr(0, longCellId.length - 1);
+                    // console.log(cellId);
+
+                    if (hasPreSalvo) {
+                        $('#' + cellId + 's').removeClass('hasPreSalvo');
+                        salvoesAvailable++;
+                        updateSalvoesAvailableText();
+
+                    }
+
+                    if (!hasPreSalvo && !hasHit && !hasSalvo && salvoesAvailable != 0) {
+
+                        $('#' + cellId + 's').addClass('hasPreSalvo');
+                        preSalvoes.push(cellId);
+
+                        salvoesAvailable--;
+
+                        updateSalvoesAvailableText();
+
+                    }
+
+                    // console.log(preSalvoes);
+                } else {
+                    showModal('NO, NO, NO!', 'Not your turn... Please keep calm.');
+                }
+            });
+
+
+        }
+
+        function highlightPreLocation() {
+
+            $('.grid').on('mouseover', 'td', function () {
+                clearPreLocations();
+
+                if (canSelect) {
+
+                    if (currentShip != undefined) {
+
+                        var mouseCell = $(this).attr('id');
+                        var shipLength = ships[currentShip].length;
+
+                        if (isHorizontal()) {
+                            preLocations = shipHorizontal(mouseCell, shipLength);
+                        } else {
+                            preLocations = shipVertical(mouseCell, shipLength);
+                        }
+
+                        showPreLocations();
+                    }
+                }
+            })
+        }
+
+        function setCurrentShip() {
+
+            $('.ship-selected').on('click', function (event) {
+                event.preventDefault();
+                canSelect = true;
+                $('.ship-selected').not(event.target).removeClass('hasBorder');
+                $(this).addClass('hasBorder');
+
+                var thisShip = $(this).attr("data-index");
+                currentShip = thisShip;
+            })
+
+        }
+
+        function updateSalvoesAvailableText() {
+
+            if (salvoesAvailable != 0) {
+                $('.salvo_number').show();
+                $('.salvo_number').html('You need set ' + salvoesAvailable + ' more to Shoot!!');
+                $('.salvo_count').hide();
+                $('#send_salvoes').hide();
+
+            } else {
+                $('.salvo_count').show();
+                $('.salvo_count').html('You can fire!!!!');
+                $('.salvo_number').hide();
+                $('#send_salvoes').show();
+            }
+        }
+
+        function submitPrelocation() {
+
+            $('.grid').on('click', 'td', function () {
+
+                if (!ifOverlap() && !ifCorrectPlacement()) {
+
+                    ships[currentShip].location = [];
+
+                    preLocations.forEach(function (loc) {
+
+                        ships[currentShip].location.push(loc);
+                        $('#' + loc).addClass('hasShip');
+
+                    });
+
+                    // if (isHorizontal()) {
+                    //
+                    //     $('#' + preLocations[0]).addClass('frontShip');
+                    //     $('#' + preLocations[preLocations.length - 1]).addClass('backShip');
+                    // } else {
+                    //     $('#' + preLocations[0]).addClass('frontShipV');
+                    //     $('#' + preLocations[preLocations.length - 1]).addClass('backShipV');
+                    // }
+
+                    canSelect = false;
+                    $("ul").find("[data-index='" + currentShip + "']").hide();
+                    $("ul").find("[data-ok='" + currentShip + "']").show();
+
+                    shipsPlaced++;
+
+                }
+            })
+
+        }
+
+        function undoShip(ship) {
+
+            shipsToRemove = ships[ship].location;
+
+            shipsToRemove.forEach(function (loc) {
+                $('#' + loc).removeClass('hasShip');
+            })
+
+            $("ul").find("[data-index='" + ship + "']").show();
+            $("ul").find("[data-index='" + ship + "']").removeClass('hasBorder');
+            $("ul").find("[data-ok='" + ship + "']").hide();
+
+            canSelect = false;
+
+            preLocations = [];
+            currentShip = "";
+
+            shipsPlaced--;
+
+        }
+
+        function undoAllShips() {
+
+            for (i = 0; i < ships.length; i++) {
+                undoShip(i);
+            }
+
+        }
+
+        function undoSalvoes() {
+
+            preSalvoes.forEach(function (cell) {
+                $('#' + cell + 's').removeClass('hasPreSalvo');
+                salvoesAvailable--;
+            })
+            // salvoes[0].locations = [];
+            preSalvoes = [];
+            salvoesAvailable = 3;
+            updateSalvoesAvailableText();
+        }
+
+        function ifOverlap() {
+
+            var value = false;
+
+            preLocations.forEach(function (cell) {
+                shipInCell = $("#" + cell).hasClass('hasShip');
+                if (shipInCell) {
+                    value = true;
+                    return false;
+                }
+            });
+
+            return value;
+        }
+
+        function ifCorrectPlacement() {
+
+            var value = false;
+
+            preLocations.forEach(function (cell) {
+                var number = cell.substr(1, 2);
+                var letter = cell.substr(0, 1);
+                var letterIndex = moreLetters.indexOf(letter);
+
+
+                if (number > 10 || letterIndex > 9) {
+                    value = true;
+                    return false;
+                }
+            });
+            return value;
+
+        }
+
+        function isHorizontal() {
+
+            if ($('#hor').is(':checked') == true) {
+                return true;
+            } else {
+                return false;
+            }
+
+        }
+
+        function showPreLocations() {
+
+            // if (isHorizontal()) {
+            //     $('#' + preLocations[0]).addClass('frontShipTemp');
+            //     $('#' + preLocations[preLocations.length - 1]).addClass('backShipTemp');
+            // } else {
+            //     $('#' + preLocations[0]).addClass('frontShipVTemp');
+            //     $('#' + preLocations[preLocations.length - 1]).addClass('backShipVTemp');
+            // }
+
+
+            preLocations.forEach(function (cell) {
+
+                if ($("#" + cell).hasClass("hasShip")) {
+
+                    $("#" + cell).addClass("overlap")
+                        // .removeClass("frontShipTemp")
+                        // .removeClass("backShipTemp")
+                        // .removeClass("frontShipVTemp")
+                        // .removeClass("backShipVTemp");
+
+                } else if (ifCorrectPlacement()) {
+                    $("#" + cell).addClass("overlap")
+                        // .removeClass("frontShipTemp")
+                        // .removeClass("backShipTemp")
+                        // .removeClass("frontShipVTemp")
+                        // .removeClass("backShipVTemp");
+                } else {
+                    $("#" + cell).addClass("tempShip");
+                }
+            })
+        }
+
+        function clearPreLocations() {
+            preLocations.forEach(function (cell) {
+                $("#" + cell).removeClass("tempShip");
+                $("#" + cell).removeClass("overlap");
+                // $("#" + cell).removeClass("frontShipTemp");
+                // $("#" + cell).removeClass("backShipTemp");
+                // $("#" + cell).removeClass("frontShipVTemp");
+                // $("#" + cell).removeClass("backShipVTemp");
+            })
+        }
+
+        /**
+         *
+         * @param mouseCell -> se coge la celda actual donde está el cursor en la tabla .grid
+         * @param shipLength -> la length del ship elegido
+         * @returns {Array}
+         */
+        function shipHorizontal(mouseCell, shipLength) {
+
+            var letter = mouseCell.substr(0, 1);
+            var number = Number(mouseCell.substr(1, 2));
+            var shipLocation = [];
+
+            for (var i = 0; i < shipLength; i++) {
+                shipLocation.push(letter + (number + i));
+            }
+
+
+            return shipLocation;
+        }
+
+        function shipVertical(mouseCell, shipLength) {
+
+            var letter = mouseCell.substr(0, 1);
+            var number = Number(mouseCell.substr(1, 2));
+            var shipLocation = [];
+            var letterIndex = moreLetters.indexOf(letter);
+
+            for (i = 0; i < shipLength; i++) {
+                shipLocation.push(moreLetters[letterIndex + i] + number);
+            }
+
+            return shipLocation;
+
+        }
+
+        function buttonsListeners() {
+
+            $('#logoutbutton').on('click', function (event) {
+                event.preventDefault();
+                var data = 'username=' + $('#username').val() + '&password=' + $('#password').val();
+                $.ajax({
+                    data: data,
+                    timeout: 1000,
+                    type: 'POST',
+                    url: 'api/logout'
+
+                }).done(function (data, textStatus, jqXHR) {
+
+                    //hide
+                    $(".main_screen").hide();
+
+                    //show
+                    $('.form_slider').toggleClass('closed');
+
+                    window.location.replace('games.html');
+
+
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+
+                });
+            });
+
+            $('#help').on('click', function (event) {
+                event.preventDefault();
+
+                showModal('Help', helpText());
+
+            });
+
+
+            $('#shipsbutton').on('click', function (event) {
+                event.preventDefault();
+
+                var gpNumber = getParameterByName("gp");
+
+                console.log(preLocations);
+
+
+                if (shipsPlaced == 5) {
+
+                    $.ajax({
+                        method: "POST",
+                        url: "/api/games/players/" + gpNumber + "/ships",
+                        contentType: "application/json",
+                        data: JSON.stringify(ships)
+
+                    }).done(function (data, textStatus, jqXHR) {
+                        window.location.reload();
+
+
+                        //location.replace("api/game_view/" + temp);
+
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        showModal('Houston! We have a problem', 'Something wrong on the dark side');
+                    });
+                } else {
+
+                    showModal('Oooops!', 'You need to place 5 ships to play. You have ' + shipsPlaced + ' placed now.');
+                }
+            });
+
+            $('#send_salvoes').on('click', function (event) {
+                event.preventDefault();
+
+                if (preSalvoes.length == 3) {
+
+                    preSalvoes.forEach(function (salvo) {
+                        salvoes.push(salvo);
+                    })
+
+                    var gpNumber = getParameterByName("gp");
+
+                    $.ajax({
+                        method: "POST",
+                        url: "/api/games/players/" + gpNumber + "/salvoes",
+                        contentType: "application/json",
+                        data: JSON.stringify({"locations": salvoes})
+
+                    }).done(function (data, textStatus, jqXHR) {
+                        window.location.reload();
+
+                        //location.replace("api/game_view/" + temp);
+
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        showModal('Something wrong', 'Try to send Salvoes again');
+                    });
+                } else {
+                    showModal('Keep shooting', "You need " + salvoesAvailable + " shots more to Shoot the Salvo!");
+                }
+            })
+
+            $('.placed').on('click', function () {
+                var ship = $(this).attr('data-ok');
+                undoShip(ship);
+            })
+
+            $('#undobutton').on('click', function () {
+                undoAllShips();
+            })
+
+            $('#undo-salvoes').on('click', function () {
+                undoSalvoes();
+            })
+
+            $('#backtbutton').on('click', function () {
+                window.location.replace('/games.html')
+            })
+
+        }
+
+        function helpText() {
+
+            var helpString = [
+
+                'You can Undo shoots pre-located (green circle) clicking them again.</br>',
+                'Every ship has its Undo button that shows once pre-placed.</br>',
+                'It´s not necessary to close the Popups every time. They close by itself every turn.</br>',
+                'If you find something to fix, you can contact me at "raulmartinezperez.com".</br>'
+
+            ];
+
+            return helpString;
+
+        }
+
+        function hideElements() {
+
+            $("ul").find("[data-ok='0']").hide();
+            $("ul").find("[data-ok='1']").hide();
+            $("ul").find("[data-ok='2']").hide();
+            $("ul").find("[data-ok='3']").hide();
+            $("ul").find("[data-ok='4']").hide();
+
+        }
+
+        function drawGrid(cells) {
+            $(".grid").empty();
+
+            for (var i = 0; i < (cells + 1); i++) {
+                var row = $("<tr class='rows'></tr>");
+
+                for (var j = 0; j < (cells + 1); j++)
+                    if (i == 0) {
+                        row.append("<td class='cells heads'>" + numbers[j] + "</td>");
+                    } else {
+                        if (j == 0) {
+                            row.append("<td class='cells heads'>" + letters[i - 1] + "</td>");
+                        } else {
+                            row.append("<td class='cells' id='" + letters[i - 1] + numbers[j] + "'></td>");
+                        }
+                    }
+                $(".grid").append(row);
+            }
+        }
+
+        function drawEnemyGrid(cells) {
+            $(".salvoes").empty();
+
+            for (var i = 0; i < (cells + 1); i++) {
+                var row = $("<tr class='rows'></tr>");
+
+                for (var j = 0; j < (cells + 1); j++)
+
+                    if (i == 0) {
+
+                        row.append("<td class='cells heads'>" + numbers[j] + "</td>");
+
+                    } else {
+
+                        if (j == 0) {
+
+                            row.append("<td class='cells heads'>" + letters[i - 1] + "</td>");
+
+                        } else {
+
+                            row.append("<td class='cells' id='" + letters[i - 1] + numbers[j] + 's' + "'></td>");
+
+                        }
+
+                    }
+                $(".salvoes").append(row);
+            }
+
+        }
+
+        function drawShipsAndSalvoes(data) {
+
+            var currentPlayerId;
+            var gpNumber = getParameterByName("gp");
+            var gameId = data.id;
+
+            $('.gameId').append(gameId);
+
+            $.each(data.gamePlayers, function (gamePlayer) {
+
+                if (data.gamePlayers[gamePlayer].id == gpNumber) {
+
+                    var name = data.gamePlayers[gamePlayer].player.name + " (You)";
+                    thisUserName = data.gamePlayers[gamePlayer].player.name;
+                    $(".pName1").append(name);
+                    currentPlayerId = data.gamePlayers[gamePlayer].player.id;
+
+
+                } else {
+
+                    var name = data.gamePlayers[gamePlayer].player.name;
+                    thisEnemyName = data.gamePlayers[gamePlayer].player.name;
+                    $(".pName2").append(name);
+
+                }
+            });
+
+            $.each(data.ships, function (ship) {
+
+                var locations = data.ships[ship].locations;
+
+                $.each(locations, function (cells) {
+
+                    $("#" + locations[cells]).addClass("hasShip");
+
+                });
+            });
+
+            //Salvoes
+            $.each(data.salvoes, function (salvoIndex) {
+
+                $.each(data.salvoes[salvoIndex], function (salvoIndex2) {
+
+                    $.each(data.salvoes[salvoIndex][salvoIndex2].locations, function (salvoLocations) {
+
+                        var salvoCells = data.salvoes[salvoIndex][salvoIndex2].locations[salvoLocations];
+
+                        // console.log(data.salvoes[salvoIndex][salvoIndex2]);
+
+                        if (data.salvoes[salvoIndex][salvoIndex2].id == currentPlayerId) {
+
+                            $("#" + salvoCells + "s").addClass("hasSalvo");
+                            $("#" + salvoCells + "s").html(data.salvoes[salvoIndex][salvoIndex2].turn);
+                            thisTurn = data.salvoes[salvoIndex][salvoIndex2].turn;
+
+                        } else {
+
+                            $("#" + salvoCells).addClass("hasSalvo")
+                                .html(data.salvoes[salvoIndex][salvoIndex2].turn);
+
+                        }
+
+                        if ($("#" + salvoCells).hasClass("hasSalvo") && $("#" + salvoCells).hasClass("hasShip")) {
+                            $("#" + salvoCells).addClass("hasShoted")
+                                .removeClass("hasSalvo");
+
+                        }
+
+                    })
+
+                    $.each(data.salvoes[salvoIndex][salvoIndex2].hits, function (salvoHits) {
+
+                        var salvoCells = data.salvoes[salvoIndex][salvoIndex2].hits[salvoHits];
+
+                        if (data.salvoes[salvoIndex][salvoIndex2].id == currentPlayerId) {
+
+                            $("#" + salvoCells + "s").removeClass("hasSalvo");
+                            $("#" + salvoCells + "s").addClass("hasShoted");
+                            $("#" + salvoCells + "s").html(data.salvoes[salvoIndex][salvoIndex2].turn);
+                        }
+                    })
+                })
+
+            })
+
+            drawPanelInfoShips(data.ships);
+            drawPanelInfoEnemyShips(data.enemyShips);
+
+
+        }
+
+        function drawPanelInfoShips(myShips) {
+
+            // console.log(myShips);
+
+            var result = "";
+
+            Object.keys(myShips).forEach(function (key) {
+                var ship = myShips[key];
+                var currentClass;
+
+                if (ship.isSunk == true) {
+                    currentClass = "mini" + ship.type + "Sunk";
+                } else {
+                    currentClass = "mini" + ship.type;
+                }
+
+                if (ship.locations.length > 0) {
+
+                    result += "<span>" + ship.type + "</span><span class='" + currentClass + "'></span>";
+                }
+
+                return result;
+
+            });
+
+            $('.shipStatus').append(result);
+
+
+        }
+
+        function drawPanelInfoEnemyShips(myShips) {
+
+            if (myShips == undefined) {
+                return false;
+            }
+            var result = "";
+
+            Object.keys(myShips).forEach(function (key) {
+                var ship = myShips[key];
+                var currentClass;
+
+                if (ship.isSunk == true) {
+                    currentClass = "mini" + ship.type + "Sunk";
+                } else {
+                    currentClass = "mini" + ship.type;
+                }
+
+                result += "<li>" + ship.type + "</li><li class='" + currentClass + "'></li>";
+
+                return result;
+
+            });
+
+            $('.enemyShipStatus').append(result);
+
+
+        }
+
+        function hasShips(data) {
+
+            if (!data.ships[0]) {
+                $(".salvoesDiv").hide();
+                $('.salvoesGridRight').hide();
+            } else {
+                $('.ships').hide();
+                $('.shipButtons').hide();
+            }
+
+        }
+
+        function checkGameStatus() {
+
+            var gpNumber = getParameterByName("gp");
+
+            setInterval(function () {
+                $.ajax({
+                    method: "GET",
+                    url: '/api/game_view/' + gpNumber,
+
+                }).done(function (data) {
+                    if (data.gameStatus != 1) {
+                        window.location.reload();
+                        pushNotification("Hey " + thisUserName + " it's yor turn", "You VS " + thisEnemyName + ". Turn " + thisTurn);
+
+                    }
+                })
+            }, 500);
+
+        }
+
+        function getParameterByName(name, url) {
+            if (!url) {
+                url = window.location.href;
+            }
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        function drawInterface() {
+
+            var gpNumber = getParameterByName("gp");
+
+            $.getJSON('/api/game_view/' + gpNumber, function (data) {
+
+                // console.log(data);
+
+                var gameStatus = data.gameStatus;
+
+                drawShipsAndSalvoes(data);
+                drawGameStatus(gameStatus, data);
+                submitPreSalvoes(gameStatus);
+                hasShips(data);
+
+
+
+            }).done(function () {
+
+
+            }).fail(function (data, textStatus, jqXHR) {
+                // console.log(textStatus);
+
+                showModal('You are a Hacker', 'You almost got it. Keep trying. Meanwhile go to the home screen...')
+                window.location.replace("games.html");
+                
+            });
+
+        }
+
+        function gameStatusCase0(data) {
+
+            $('.message').addClass('blink');
+
+            salvoesView();
+
+            closeModal();
+            document.getElementById('yourTurn').play();
+            // showModal('FIIIIIIIIIIRRRRREEEEEE', 'Is your turn!!! Kill him!!');
+
+
+
+            $('.salvo_message').show();
+            $('.salvo_buttons').show();
+
+            if (!data.ships[0]) {
+                $('.statusMessage').html("Place your Ships");
+                placeShipsView();
+            } else {
+                $('.statusMessage').html("You can fire Salvoes");
+            }
+
+
+        }
+
+        function gameStatusCase1(data) {
+
+            $('.message').removeClass('blink');
+
+
+            closeModal();
+
+            if (data.ships[0]) {
+                $('.statusMessage').html("Waiting for other player");
+                showModal('Please wait', 'Don´t close me! I´ll make a sound when it´s your turn...');
+            } else {
+                placeShipsView();
+                $('.statusMessage').html("Place Your Ships");
+            }
+
+            $('.salvo_message').hide();
+            $('.salvo_buttons').hide();
+
+
+        }
+
+        function gameStatusCase2(data) {
+
+            $('.message').removeClass('blink');
+
+
+            closeModal();
+
+            var gpNumber = getParameterByName("gp");
+
+            // hasShips();
+
+            $('.salvo_message').hide();
+            $('.salvo_buttons').hide();
+
+            $.ajax({
+                method: "POST",
+                url: "/api/" + gpNumber + "/winner",
+
+            }).done(function (data, textStatus, jqXHR) {
+
+
+                if (jqXHR.responseJSON.winner) {
+                    $('.statusMessage').html("You Win!!");
+                    document.getElementById('winner').play();
+                    pushNotification("You win!!", "Click here to see more...");
+                    showModal('TIMEEEEEEE!!!!!', 'Well played!!! One point for you');
+
+                } else {
+                    $('.statusMessage').html("You Lose!!");
+                    pushNotification("You lose...", "Try again by click here");
+                    showModal('TIME TO THINK', 'You´ve lost again... like in your real life... Think about that.');
+                }
+
+
+            })
+
+
+        }
+
+        function drawGameStatus(gameStatus, data) {
+
+            switch (gameStatus) {
+                // Can shoot Salvoes to play
+                case 0:
+                    gameStatusCase0(data);
+                    break;
+
+                //Wait for player or Salvoes
+                case 1:
+                    checkGameStatus();
+                    gameStatusCase1(data);
+                    break;
+                //Game Over
+                case 2:
+                    gameStatusCase2(data);
+            }
+
+        }
+
+        function showModal(tittleText, innerText) {
+
+            $('.modal-title').html(tittleText);
+            $('.modal-body').html(innerText);
+
+            $('#myModal').modal('show');
+        }
+
+        function closeModal() {
+
+            $('#myModal').modal('hide');
+        }
+
+        function startNotifications() {
+
+        // request permission on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            if (Notification.permission !== "granted")
+                Notification.requestPermission();
+        });
+
+        }
+
+        function pushNotification( notificationTitle, notificationMessage) {
+
+            //showPush es el trigger de la notificación...
+            if(showPush) {
+                showPush = false;
+
+                if (!Notification) {
+                    alert('Desktop notifications not available in your browser. Try Chromium.');
+                    return;
+                }
+
+                if (Notification.permission !== "granted")
+                    Notification.requestPermission();
+                else {
+                    var notification = new Notification(notificationTitle, {
+                        icon: 'https://is2-ssl.mzstatic.com/image/thumb/Purple111/v4/34/05/e2/3405e27a-bc27-7b6e-2441-bd44b668a1e4/source/256x256bb.jpg',
+                        body: notificationMessage,
+                    });
+
+                    //Fija la notificación solamente 10 segundos
+                    setTimeout(notification.close.bind(notification), 10000);
+
+
+
+                    notification.onclick = function () {
+                        window.location.replace(window.location.href);
+                        window.focus();
+                        this.close();
+                        window.location.reload();
+
+                    };
+
+                }
+            }
+
+        }
+
+        function startFunctions() {
+            window.onblur = function() { blurred = true; };
+            window.onfocus = function() { blurred && (location.reload()); };
+            drawGrid(10);
+            drawEnemyGrid(10);
+            hideElements();
+            buttonsListeners();
+            highlightPreLocation();
+            submitPrelocation();
+            setCurrentShip();
+            updateSalvoesAvailableText();
+
+            drawInterface();
+
+
+        }
+
+    }
+)

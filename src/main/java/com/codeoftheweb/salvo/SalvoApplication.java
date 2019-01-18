@@ -117,7 +117,7 @@ public class SalvoApplication {
 
             // save a couple of salvo fucks
             ArrayList<String> salvo1 = new ArrayList<String>();
-            salvo1.add("B9");//Adding object in arraylist
+            salvo1.add("Bs9");//Adding object in arraylist
 
             ArrayList<String> salvo2 = new ArrayList<String>();
             salvo2.add("F1");//Adding object in arraylist
@@ -135,12 +135,16 @@ public class SalvoApplication {
 
             gp1.addSalvo(s1);
             GamePlayer gp2 = new GamePlayer(g1, p2);
+
+            Salvo s2 = new Salvo(1,salvo2,gp2);
           //  gp2.addShip(sh6);
             gp2.addShip(sh7);
             gp2.addShip(sh8);
             gp2.addShip(sh9);
             gp2.addShip(sh10);
-         //   GamePlayer gp3 = new GamePlayer(g2, p3);
+            gp2.addSalvo(s2);
+
+            //   GamePlayer gp3 = new GamePlayer(g2, p3);
          //   GamePlayer gp4 = new GamePlayer(g2, p4);
 
             gamePlayerRepo.save(gp1);
@@ -148,7 +152,9 @@ public class SalvoApplication {
          //   gamePlayerRepo.save(gp3);
          //   gamePlayerRepo.save(gp4);
             salvoRep.save(s1);
-           // shipRepo.save(sh1);
+            salvoRep.save(s2);
+
+            // shipRepo.save(sh1);
             shipRepo.save(sh2);
             shipRepo.save(sh3);
             shipRepo.save(sh4);
