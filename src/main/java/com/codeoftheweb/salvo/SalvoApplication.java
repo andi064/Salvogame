@@ -121,6 +121,7 @@ public class SalvoApplication {
 
             ArrayList<String> salvo2 = new ArrayList<String>();
             salvo2.add("F1");//Adding object in arraylist
+            salvo2.add("F3");//Adding object in arraylist
 
             // save a couple of gameplayers
 

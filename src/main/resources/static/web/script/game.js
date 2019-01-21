@@ -68,8 +68,11 @@ let grid = new Vue({
             let salvo = fetchInfo.thyEnemySalvoes;
             for (let i = 0; i < salvo.length; i++) {
                 for (let j = 0; j < fetchInfo.thyEnemySalvoes[i].Salvo_Location.length; j++) {
-                    // console.log(fetchInfo.Ships[i].Ship_Location[j]);
-                    document.getElementById(fetchInfo.thyEnemySalvoes[i].Salvo_Location[j]).className += "salvoLoc";
+                    document.getElementById(fetchInfo.thyEnemySalvoes[i].Salvo_Location[j]).className += "salvoHit";
+                    let imgHit = document.createElement("img");
+                    imgHit.className +="salvoHit";
+                    imgHit.src = 'images/hit.gif';
+                    document.getElementById(fetchInfo.thyEnemySalvoes[i].Salvo_Location[j]).append(imgHit);
                     for (let v = 0; v < fetchInfo.Salvos[i].Turn.length; v++) {
                       //  document.getElementById(fetchInfo.Salvos[i].Salvo_Location[j]).innerHTML +=Turn[v];
                     }

@@ -17,6 +17,11 @@ width: 50px;
     background-color: green;
 }
 
+.salvoHit{
+    width: 50px;
+    height: 40px;
+}
+
 .thaGrids{
     display: flex;
     flex-direction: row;
