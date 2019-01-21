@@ -117,7 +117,7 @@ public class SalvoApplication {
 
             // save a couple of salvo fucks
             ArrayList<String> salvo1 = new ArrayList<String>();
-            salvo1.add("Bs9");//Adding object in arraylist
+            salvo1.add("B9");//Adding object in arraylist
 
             ArrayList<String> salvo2 = new ArrayList<String>();
             salvo2.add("F1");//Adding object in arraylist
