@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import sun.security.krb5.internal.crypto.Des;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,7 +19,7 @@ public class SalvoApplication {
     }
 
     @Bean
-    public CommandLineRunner initData(PlayerRepository playerRepo, GameRepository gameRepo, GamePlayerRepository gamePlayerRepo, ShipRepository shipRepo, SalvoRepository salvoRep) {
+    public CommandLineRunner initData(PlayerRepository playerRepo, GameRepository gameRepo, GamePlayerRepository gamePlayerRepo, ShipRepository shipRepo, SalvoRepository salvoRep, ScoreRepository scoreRepo) {
         return (args) -> {
             // save a couple of players
             Player p1 = new Player("Jack_Bauer", "j.bauer@ctu.gov");
@@ -136,6 +137,8 @@ public class SalvoApplication {
 
             gp1.addSalvo(s1);
             GamePlayer gp2 = new GamePlayer(g1, p2);
+            GamePlayer gp3 = new GamePlayer(g2, p3);
+            GamePlayer gp4 = new GamePlayer(g2, p4);
 
             Salvo s2 = new Salvo(1,salvo2,gp2);
           //  gp2.addShip(sh6);
@@ -150,10 +153,17 @@ public class SalvoApplication {
 
             gamePlayerRepo.save(gp1);
             gamePlayerRepo.save(gp2);
+            gamePlayerRepo.save(gp3);
+            gamePlayerRepo.save(gp4);
          //   gamePlayerRepo.save(gp3);
          //   gamePlayerRepo.save(gp4);
             salvoRep.save(s1);
             salvoRep.save(s2);
+
+            scoreRepo.save(new Score(1.0,new Date(),g1,p1));
+            scoreRepo.save(new Score(0.0,new Date(),g1,p2));
+            scoreRepo.save(new Score(0.5,new Date(),g2,p3));
+            scoreRepo.save(new Score(0.5,new Date(),g2,p4));
 
             // shipRepo.save(sh1);
             shipRepo.save(sh2);

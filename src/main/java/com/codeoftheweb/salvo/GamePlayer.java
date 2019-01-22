@@ -78,5 +78,9 @@ public class GamePlayer {
         salvo.setGamePlayer(this);
     }
 
+    public Score getScores(){ // create a method to get the scores from the gamePlayer
+       return this.player.getScore(this.game);
+    }
+
 
 }
