@@ -63,8 +63,12 @@ public class AppController {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("id", gamePlayer.getId());
         dto.put("player", playerDTO(gamePlayer.getPlayer()));
-        dto.put("score", gamePlayer.getScores().getScore()); // add the score here to
-
+        if(gamePlayer.getScores() != null) {
+            dto.put("score", gamePlayer.getScores().getScore());
+        }else{
+            dto.put("score", null);
+        }
+       // dto.put("score", gamePlayer.getScores().getScore()); // add the score here to have easy access
         return dto;
     }
 

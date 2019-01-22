@@ -5,13 +5,27 @@
     <title>SalvoGame</title>
 </head>
 <body>
-
+<div id="View" >
 <ol id="gameList">
-  
-   
-
 </ol>
-
+<table id="firstTable">
+    <thead>
+      <tr>
+        <th>Game ID</th>
+        <th>Created</th>
+        <th>Players ( Email )</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="game in games">
+        <td>{{game.id}}</td>
+        <td>{{game.created}}</td>
+        <td>{{game.gamePlayers}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script type="text/javascript" src="script/games.js"></script>
 </body>
 

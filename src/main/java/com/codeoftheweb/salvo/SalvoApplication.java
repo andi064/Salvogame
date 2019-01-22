@@ -26,6 +26,8 @@ public class SalvoApplication {
             Player p2 = new Player("Chloe_O'Brian", "c.obrian@ctu.gov"); // storing players on the player class
             Player p3 = new Player("t.almeida", "t.almeida@ctu.gov");
             Player p4 = new Player("Andi064", "love_nurse@hospital69.com");
+           // playerRepo.save(new Player("Jack_Bauer","j.bauer@ctu.gov"));
+           // scoreRepo.save(new Score(1.0,new Date(),g1,p1));
 
             playerRepo.save(p1);
             playerRepo.save(p2);
@@ -175,8 +177,6 @@ public class SalvoApplication {
             shipRepo.save(sh8);
             shipRepo.save(sh9);
             shipRepo.save(sh10);
-
-
 
         };
     }
