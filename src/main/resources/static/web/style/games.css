@@ -1,0 +1,45 @@
+body{
+    background-image: url("../images/backgroundThemeJap.jpg");
+}
+
+table{
+    text-align: center;
+    border-radius: 10px;
+}
+
+td{
+    padding: 10px;
+}
+
+.tables{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.firstTable table{
+    background-color: rgba(0,0,0,0.5);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+    
+}
+
+.firstTable th{
+    text-align: center;
+}
+
+.secondTable table{
+    background-color: rgba(0,0,0,0.5);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.firstTable, .secondTable{
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+    border: 5px solid rgba(0,0,0,0.5);
+    border-radius: 10px;
+    background-color:  rgba(0,0,0,0.5);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    color: wheat;
+}

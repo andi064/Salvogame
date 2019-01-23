@@ -1,11 +1,10 @@
 body{
-    background-image: url('web/images/background.jpg');
+    background-image: url('../images/backgroundThemeJap.jpg');
 }
 
 td{
 border: 1px solid red;
 height: 40px;
-width: auto;
 width: 50px;
 }
 

@@ -4,52 +4,80 @@
 <head>
     <meta charset="UTF-8">
     <title>SalvoGame</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+        crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="style/animate.css">
+    <link rel="stylesheet" type="text/css" href="style/games.css">
 </head>
-
-<body>
-    <div id="View">
-        <table id="firstTable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Date</th>
-                    <th>Players ( Email )</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="game in games">
-                    <td>{{game.id}}</td>
-                    <td>{{dateFormat(game.created)}}</td>
-                    <td v-for="gamePlayer in game.gamePlayers" v-if="game.gamePlayers.length == 2">
-                        {{gamePlayer.player.userName}}</td>
-                        <td v-if="game.gamePlayers.length == 1">{{game.gamePlayers[0].player.userName}}</td>
-                        <td v-if="game.gamePlayers.length == 1">Waiting for thy enemy</td>
-                      
-                </tr>
-            </tbody>
-        </table>
-        <table id="secondTable">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Wins</th>
-                        <th>Draws</th>
-                        <th>Losses</th>
-                        <th>Total Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(stat,index) in stats">
-                        <td>{{index}}</td>
-                        <td>{{stat.wins}}</td>
-                        <td>{{stat.draws}}</td>
-                        <td>{{stat.losses}}</td>
-                        <td>{{stat.total}}</td>
-
-                    </tr>
-                </tbody>
-            </table>
+<!-- Remember to use the clase animated "effect" to the animate css-->
+<body class="container">
+    <div class="title text-center">
+        <h1>Kamikaze Bombing Game - 神風戦艦 </h1>
     </div>
+    <!--Div applying vue js-->
+    <div id="View">
+        <div class="tables">
+            <div class="firstTable">
+                <h3>Games - ゲーム</h3>
+                <table id="firstTable" class="table-dark">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Player 1</th>
+                            <th>Player 2</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="game in games">
+                            <td>{{game.id}}</td>
+                            <td>{{dateFormat(game.created)}}</td>
+                            <td v-for="gamePlayer in game.gamePlayers" v-if="game.gamePlayers.length == 2">
+                                {{gamePlayer.player.userName}}</td>
+                                <td v-if="game.gamePlayers.length == 1">{{game.gamePlayers[0].player.userName}}</td>
+                                <td v-if="game.gamePlayers.length == 1">Waiting for thy enemy</td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="secondTable">
+                <h3>Leaderboards - リーダーボード</h3>
+                <table id="secondTable" class="table-dark">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Wins</th>
+                            <th>Draws</th>
+                            <th>Losses</th>
+                            <th>Total Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(stat,index) in stats">
+                            <td>{{index}}</td>
+                            <td>{{stat.wins}}</td>
+                            <td>{{stat.draws}}</td>
+                            <td>{{stat.losses}}</td>
+                            <td>{{stat.total}}</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--Closing div of tables format-->
+        </div>
+
+
+    </div>
+    <!--closing div of Vue-->
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script type="text/javascript" src="script/games.js"></script>
 </body>
