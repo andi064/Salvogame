@@ -13,7 +13,8 @@ let tableInfo = new Vue({
             .then((data) => {
                tableInfo.games = data;
                console.log(this.games);
-               this.gamesCreation(data);
+               this.dateFormat(data);
+               //this.players(data);
             });
       },
       getStats() {
@@ -24,26 +25,27 @@ let tableInfo = new Vue({
             .then((data) => {
                tableInfo.stats = data;
                console.log(this.stats);
-               this.playerStats(data);
+               
             });
       },
-
-      gamesCreation(data) {
-         let ol = document.getElementById("gameList");
-         for (let i = 0; i < data.length; i++) {
-            let li = document.createElement("li");
-            let date = new Date(data[i].created);
-            li.append("Game Id : " + data[i].id + " - " + "Created on " + date.toLocaleDateString() + " ");
-            for (let x = 0; x < data[i].gamePlayers.length; x++) {
-               let player = data[i].gamePlayers[x].player;
-               li.append(" " + player.userName + " ( " + player.email + " )");
-            }
-            ol.append(li);
-         }
+      gameStats(data) {
+         //the fetch for the stats second table
       },
+      dateFormat(date){
 
-      playerStats(data) {
-         console.log("it works");
+         date = new Date(date);
+         let monthNames = [
+            "Jan", "Feb", "Mar",
+            "Apr", "May", "Jun", "Jul",
+            "Aug", "Sept", "Oct",
+            "Nov", "Dec"
+          ];
+        
+          let day = date.getDate();
+          let monthIndex = date.getMonth();
+          let year = date.getFullYear();
+        
+          return day + ' ' + monthNames[monthIndex] + ' ' + year;
       }
 
    },
@@ -52,3 +54,19 @@ let tableInfo = new Vue({
       this.getStats();
    }
 });
+
+// getGPlayers: function (data) {
+//    var id = this.gp;
+//    // console.log(id);
+//    for (i = 0; i < data.GamePlayers.length; i++) {
+//      if(data.GamePlayers[i].id == id){
+//        this.gamePlayer1 = data.GamePlayers[i].player.userName;
+//        }else{
+//            this.gamePlayer2 = data.GamePlayers[i].player.userName;
+
+//        }
+//        if(data.GamePlayers.length == 1){
+//            this.gamePlayer2 = "Waiting for opponent";
+//        }
+//    }
+// },

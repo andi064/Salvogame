@@ -1,32 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>SalvoGame</title>
 </head>
+
 <body>
-<div id="View" >
-<ol id="gameList">
-</ol>
-<table id="firstTable">
-    <thead>
-      <tr>
-        <th>Game ID</th>
-        <th>Created</th>
-        <th>Players ( Email )</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="game in games">
-        <td>{{game.id}}</td>
-        <td>{{game.created}}</td>
-        <td>{{game.gamePlayers}}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script type="text/javascript" src="script/games.js"></script>
+    <div id="View">
+        <table id="firstTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Players ( Email )</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="game in games">
+                    <td>{{game.id}}</td>
+                    <td>{{dateFormat(game.created)}}</td>
+                    <td v-for="gamePlayer in game.gamePlayers" v-if="game.gamePlayers.length == 2">
+                        {{gamePlayer.player.userName}}</td>
+                        <td v-if="game.gamePlayers.length == 1">{{game.gamePlayers[0].player.userName}}</td>
+                        <td v-if="game.gamePlayers.length == 1">Waiting for thy enemy</td>
+                      
+                </tr>
+            </tbody>
+        </table>
+        <table id="secondTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Wins</th>
+                        <th>Draws</th>
+                        <th>Losses</th>
+                        <th>Total Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(stat,index) in stats">
+                        <td>{{index}}</td>
+                        <td>{{stat.wins}}</td>
+                        <td>{{stat.draws}}</td>
+                        <td>{{stat.losses}}</td>
+                        <td>{{stat.total}}</td>
+
+                    </tr>
+                </tbody>
+            </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="script/games.js"></script>
 </body>
 
 </html>
