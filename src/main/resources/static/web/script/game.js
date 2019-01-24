@@ -28,13 +28,16 @@ let grid = new Vue({
                 });
         },
         shipLocation_player(fetchInfo) {
+            if(fetchInfo.Ships){
             let ship = fetchInfo.Ships;
+
             for (let i = 0; i < ship.length; i++) {
                 for (let j = 0; j < fetchInfo.Ships[i].Ship_Location.length; j++) {
                     // console.log(fetchInfo.Ships[i].Ship_Location[j]);
                     document.getElementById(fetchInfo.Ships[i].Ship_Location[j]).className += "shipLoc";
                 }
             }
+        }
             // },
             // playerDetails(fetchInfo){
             //     let playerInfo = fetchInfo.GamePlayers;
@@ -52,6 +55,7 @@ let grid = new Vue({
 
         },
         salvoLocation(fetchInfo) {
+            if(fetchInfo.Salvos){
             let salvo = fetchInfo.Salvos;
             for (let i = 0; i < salvo.length; i++) {
                 for (let j = 0; j < fetchInfo.Salvos[i].Salvo_Location.length; j++) {
@@ -62,8 +66,10 @@ let grid = new Vue({
                 }
 
             }
+        }
         },
         thyEnemySalvo(fetchInfo) {
+            if(fetchInfo.thyEnemySalvoes){
             let salvo = fetchInfo.thyEnemySalvoes;
             for (let i = 0; i < salvo.length; i++) {
                 for (let j = 0; j < fetchInfo.thyEnemySalvoes[i].Salvo_Location.length; j++) {
@@ -83,6 +89,7 @@ let grid = new Vue({
                 }
             }
         }
+    }
     },
     created() {
         this.getID();

@@ -1,9 +1,21 @@
 package com.codeoftheweb.salvo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.GlobalAuthenticationConfigurerAdapter;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import sun.security.krb5.internal.crypto.Des;
 
 import java.util.ArrayList;
@@ -19,13 +31,19 @@ public class SalvoApplication {
     }
 
     @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Bean
     public CommandLineRunner initData(PlayerRepository playerRepo, GameRepository gameRepo, GamePlayerRepository gamePlayerRepo, ShipRepository shipRepo, SalvoRepository salvoRep, ScoreRepository scoreRepo) {
         return (args) -> {
             // save a couple of players
-            Player p1 = new Player("Jack_Bauer", "j.bauer@ctu.gov");
-            Player p2 = new Player("Chloe_O'Brian", "c.obrian@ctu.gov"); // storing players on the player class
-            Player p3 = new Player("t.almeida", "t.almeida@ctu.gov");
-            Player p4 = new Player("Andi064", "love_nurse@hospital69.com");
+            Player p1 = new Player("Jack_Bauer", "j.bauer@ctu.gov","24");
+            Player p2 = new Player("Chloe_O'Brian", "c.obrian@ctu.gov", "42"); // storing players on the player class
+            Player p3 = new Player("t.almeida", "t.almeida@ctu.gov","mole");
+            Player p4 = new Player("Andi064", "love_nurse@hospital69.com", "lisen");
+            Player p5 = new Player("kim_bauer", "kimi@this.mail.com","kb");
            // playerRepo.save(new Player("Jack_Bauer","j.bauer@ctu.gov"));
            // scoreRepo.save(new Score(1.0,new Date(),g1,p1));
 
@@ -33,6 +51,7 @@ public class SalvoApplication {
             playerRepo.save(p2);
             playerRepo.save(p3);
             playerRepo.save(p4);
+            playerRepo.save(p5);
 
             // save a couple of game dates
 
@@ -139,8 +158,28 @@ public class SalvoApplication {
 
             gp1.addSalvo(s1);
             GamePlayer gp2 = new GamePlayer(g1, p2);
-            GamePlayer gp3 = new GamePlayer(g2, p3);
-            GamePlayer gp4 = new GamePlayer(g2, p4);
+
+            GamePlayer gp3 = new GamePlayer(g2, p1);
+            GamePlayer gp4 = new GamePlayer(g2, p2);
+
+            GamePlayer gp5 = new GamePlayer(g3, p2);
+            GamePlayer gp6 = new GamePlayer(g3, p3);
+
+            GamePlayer gp7 = new GamePlayer(g4, p2);
+            GamePlayer gp8 = new GamePlayer(g4, p1);
+
+            GamePlayer gp9 = new GamePlayer(g5, p3);
+            GamePlayer gp10 = new GamePlayer(g5, p1);
+
+            //test bed with a missing player
+            GamePlayer gp11 = new GamePlayer(g6, p4);
+           // GamePlayer gp12 = new GamePlayer(g6, p2);
+
+            GamePlayer gp13 = new GamePlayer(g7, p3);
+            //GamePlayer gp14 = new GamePlayer(g7, p2);
+
+            GamePlayer gp15 = new GamePlayer(g8, p5);
+            GamePlayer gp16 = new GamePlayer(g8, p3);
 
             Salvo s2 = new Salvo(1,salvo2,gp2);
           //  gp2.addShip(sh6);
@@ -157,15 +196,32 @@ public class SalvoApplication {
             gamePlayerRepo.save(gp2);
             gamePlayerRepo.save(gp3);
             gamePlayerRepo.save(gp4);
-         //   gamePlayerRepo.save(gp3);
-         //   gamePlayerRepo.save(gp4);
+            gamePlayerRepo.save(gp5);
+            gamePlayerRepo.save(gp6);
+            gamePlayerRepo.save(gp7);
+            gamePlayerRepo.save(gp8);
+            gamePlayerRepo.save(gp9);
+            gamePlayerRepo.save(gp10);
+            gamePlayerRepo.save(gp11);
+          //  gamePlayerRepo.save(gp12);
+            gamePlayerRepo.save(gp13);
+          //  gamePlayerRepo.save(gp14);
+            gamePlayerRepo.save(gp15);
+            gamePlayerRepo.save(gp16);
+
             salvoRep.save(s1);
             salvoRep.save(s2);
 
             scoreRepo.save(new Score(1.0,new Date(),g1,p1));
             scoreRepo.save(new Score(0.0,new Date(),g1,p2));
-            scoreRepo.save(new Score(0.5,new Date(),g2,p3));
-            scoreRepo.save(new Score(0.5,new Date(),g2,p4));
+            scoreRepo.save(new Score(0.5,new Date(),g2,p1));
+            scoreRepo.save(new Score(0.5,new Date(),g2,p2));
+            scoreRepo.save(new Score(1.0,new Date(),g3,p2));
+            scoreRepo.save(new Score(0.0,new Date(),g3,p3));
+            scoreRepo.save(new Score(0.5,new Date(),g4,p2));
+            scoreRepo.save(new Score(0.5,new Date(),g4,p1));
+           // scoreRepo.save(new Score(0.5,new Date(),g5,p3));
+           // scoreRepo.save(new Score(0.5,new Date(),g5,p1));
 
             // shipRepo.save(sh1);
             shipRepo.save(sh2);
@@ -181,5 +237,38 @@ public class SalvoApplication {
         };
     }
 
+}
+
+@Configuration
+class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
+
+    @Autowired
+    PlayerRepository playerRepository;
+
+    @Override
+    public void init(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(inputName-> {
+            Player player = playerRepository.findByEmail(inputName);
+            if (player != null) {
+                return new User(player.getEmail(), player.getPassword(),
+                        AuthorityUtils.createAuthorityList("USER"));
+            } else {
+                throw new UsernameNotFoundException("Unknown user: " + inputName);
+            }
+        });
+    }
+}
+
+@Configuration
+@EnableWebSecurity
+class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/**").hasAuthority("USER") // here we have to put all the files that players can acces the html,js,css etc
+                .and()
+                .formLogin();
+    }
 }
 

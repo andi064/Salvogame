@@ -23,6 +23,13 @@
                     {{fetchInfo.GamePlayers[1].player.userName}}
                     You</span>
             </h5>
+            <h5 v-else>
+                <span v-if="gp==fetchInfo.GamePlayers[0].id">You {{fetchInfo.GamePlayers[0].player.userName}} VS
+                    Waiting for Opponent !! </span>
+                <span v-else>Waiting for Opponent !! VS
+                    {{fetchInfo.GamePlayers[0].player.userName}}
+                    You</span>
+            </h5>
         </div>
         <div class="thaGrids">
             <div class="shipGrid">
