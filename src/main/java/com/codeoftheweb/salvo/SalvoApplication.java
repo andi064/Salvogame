@@ -266,7 +266,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
-                .antMatchers("/**").hasAuthority("USER") // here we have to put all the files that players can acces the html,js,css etc
+              //  .antMatchers("/**").hasAuthority("USER")
+                .antMatchers("/web/**").permitAll() // here we have to put all the files that players can acces the html,js,css etc
                 .and()
                 .formLogin();
     }
