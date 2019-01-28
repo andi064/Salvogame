@@ -3,6 +3,7 @@ package com.codeoftheweb.salvo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class AppController {
     @Autowired
     private GamePlayerRepository gamePlayerRepo;
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @RequestMapping("/players")
     public List<Player> getPlayer() {
@@ -35,8 +36,15 @@ public class AppController {
     }
 
     @RequestMapping("/games")
-    public List<Object> getGame() {
-        return gameRepo.findAll().stream().map(Game -> gameDTO(Game)).collect(toList());
+    public Map<String, Object> getGame(Authentication authentication) {
+        Map<String, Object> dto = new LinkedHashMap<String, Object>();
+        if( isGuest(authentication)){
+            dto.put("players", null);
+        }else{
+            dto.put("player", playerDTO(isLoged(authentication)));
+        }
+        dto.put("games", gameRepo.findAll().stream().map(Game -> gameDTO(Game)).collect(toList()));
+        return dto;
     }
 
     private Map<String, Object> gameDTO(Game game) {
@@ -168,6 +176,14 @@ public class AppController {
 
         playerRepo.save(new Player(userName, email, passwordEncoder.encode(password)));
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    private boolean isGuest(Authentication authentication) {
+        return authentication == null || authentication instanceof AnonymousAuthenticationToken;
+    }
+
+    private Player isLoged (Authentication authentication){
+        return playerRepo.findByEmail(authentication.getName());
     }
 }
 
