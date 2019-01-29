@@ -25,13 +25,13 @@ let tableInfo = new Vue({
             .then((data) => {
                tableInfo.stats = data;
                console.log(this.stats);
-               
+
             });
       },
       gameStats(data) {
          //the fetch for the stats second table
       },
-      dateFormat(date){
+      dateFormat(date) {
 
          date = new Date(date);
          let monthNames = [
@@ -39,13 +39,13 @@ let tableInfo = new Vue({
             "Apr", "May", "Jun", "Jul",
             "Aug", "Sept", "Oct",
             "Nov", "Dec"
-          ];
-        
-          let day = date.getDate();
-          let monthIndex = date.getMonth();
-          let year = date.getFullYear();
-        
-          return day + ' ' + monthNames[monthIndex] + ' ' + year;
+         ];
+
+         let day = date.getDate();
+         let monthIndex = date.getMonth();
+         let year = date.getFullYear();
+
+         return day + ' ' + monthNames[monthIndex] + ' ' + year;
       }
 
    },
@@ -54,3 +54,12 @@ let tableInfo = new Vue({
       this.getStats();
    }
 });
+
+function logout() {
+   fetch('/api/logout', {
+      method: 'POST',
+   }).then(function (response) {
+      location.replace("http://localhost:8080/web/index.html");
+      return response.json();
+   });
+}

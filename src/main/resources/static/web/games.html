@@ -10,9 +10,14 @@
     <link rel="stylesheet" type="text/css" href="style/games.css">
 </head>
 <!-- Remember to use the clase animated "effect" to the animate css-->
+
 <body class="container">
     <div class="title text-center">
         <h1>Kamikaze Bombing Game - 神風戦艦 </h1>
+    </div>
+
+    <div class="logout" onclick="logout()">
+        <button type="button" class="btn btn-primary" >Log Out</button>
     </div>
     <!--Div applying vue js-->
     <div id="View">
@@ -29,14 +34,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="game in games">
+                        <tr v-for="game in games.games">
                             <td>{{game.id}}</td>
                             <td>{{dateFormat(game.created)}}</td>
                             <td v-for="gamePlayer in game.gamePlayers" v-if="game.gamePlayers.length == 2">
                                 {{gamePlayer.player.userName}}</td>
-                                <td v-if="game.gamePlayers.length == 1">{{game.gamePlayers[0].player.userName}}</td>
-                                <td v-if="game.gamePlayers.length == 1">Waiting for thy enemy</td>
-                            
+                            <td v-if="game.gamePlayers.length == 1">{{game.gamePlayers[0].player.userName}}</td>
+                            <td v-if="game.gamePlayers.length == 1">Waiting for thy enemy</td>
+
                         </tr>
                     </tbody>
                 </table>

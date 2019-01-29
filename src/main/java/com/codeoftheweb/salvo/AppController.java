@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,11 +30,6 @@ public class AppController {
     private GamePlayerRepository gamePlayerRepo;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @RequestMapping("/players")
-    public List<Player> getPlayer() {
-        return playerRepo.findAll();
-    }
 
     @RequestMapping("/games")
     public Map<String, Object> getGame(Authentication authentication) {
@@ -163,19 +159,18 @@ public class AppController {
         return gamePlayer.getGame().getGamePlayers().stream().filter(gamePlayer1 -> gamePlayer1.getId() !=gamePlayer.getId()).findAny().orElse(null);
     }
     @RequestMapping(path = "/players", method = RequestMethod.POST)
-    public ResponseEntity<Object> register(
-           @RequestParam String userName, @RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<Object> register( @RequestBody Player player){
 
-        if (userName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        if (player.getUserName().isEmpty() || player.getEmail().isEmpty() || player.getPassword().isEmpty()) {
             return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
         }
 
-        if (playerRepo.findByEmail(email) !=  null) {
-            return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN);
+        if (playerRepo.findByEmail(player.getEmail()) !=  null) {
+            return new ResponseEntity<>("Email already in use", HttpStatus.FORBIDDEN);
         }
 
-        playerRepo.save(new Player(userName, email, passwordEncoder.encode(password)));
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        playerRepo.save(new Player(player.getUserName(), player.getEmail(),player.getPassword()));
+        return new ResponseEntity<>(sentInfo("player",player.getUserName()),HttpStatus.CREATED); // player created mssg
     }
 
     private boolean isGuest(Authentication authentication) {
@@ -185,6 +180,13 @@ public class AppController {
     private Player isLoged (Authentication authentication){
         return playerRepo.findByEmail(authentication.getName());
     }
+
+    private Map<String, Object> sentInfo(String key, Object value) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(key, value);
+        return map;
+    }
+
 }
 
 

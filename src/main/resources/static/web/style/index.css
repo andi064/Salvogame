@@ -26,28 +26,35 @@
 /*Sakura animation using WebGL. No images are used. The framerate might be slow or the demo might not play at all in some older systems so you can watch this video: http://www.screenr.com/BFZ8. Let me make it clear that I did not make this and just thought is was very cool and wanted to share it.
 */
 
-body {
-    padding:0;
-    margin:0;
-    overflow:hidden;
-	  height: 600px;
-}
-canvas {
-    padding:0;
-    margin:0;
-}
-div.btnbg {
-    position:fixed;
-    left:0;
-    top:0;
-    box-shadow: 0px 0px 15px #ccc;
-}
-div.btnbg:hover{
-    text-shadow: 0px 0px 3px #ccc;
-    box-shadow: 0px 0px 20px #ccc;
-}
-
 .btnbg {
 	position: absolute;
 	z-index: 9990;
+}
+
+input.sumbit{
+	z-index: 9990;
+}
+
+#myVideo {
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	min-width: 100%; 
+	min-height: 100%;
+	animation: infinite;
+}
+
+#myBtn {
+	width: 200px;
+	font-size: 18px;
+	padding: 10px;
+	border: none;
+	background: #000;
+	color: #fff;
+	cursor: pointer;
+}
+  
+#myBtn:hover {
+	background: #ddd;
+	color: black;
 }
