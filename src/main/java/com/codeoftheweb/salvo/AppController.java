@@ -86,20 +86,24 @@ public class AppController {
     }
 
     @RequestMapping("/game_view/{gameId}")
-    public Map<String, Object> gameViewDTO(@PathVariable Long gameId) {
+    public Map<String, Object> gameViewDTO(@PathVariable Long gameId, Authentication authentication) {
         GamePlayer gamePlayer = gamePlayerRepo.getOne(gameId);
+        if(gamePlayer.getPlayer().getId() == isLoged(authentication).getId()) {
 
-        Map<String, Object> dto = new LinkedHashMap<String, Object>();
-        dto.put("id", gamePlayer.getGame().getId());
-        dto.put("created", gamePlayer.getGame().getDate());
-        dto.put("GamePlayers", gamePlayer.getGame().getGamePlayers().stream().map(gamePlayer1 -> gamePlayerDTO(gamePlayer1)).collect(Collectors.toList()));
-        dto.put("Ships", gamePlayer.getShips().stream().map(ship -> shipDTO(ship)).collect(Collectors.toList()));
-        dto.put("Salvos", gamePlayer.getSalvos().stream().map(salvo -> salvoDTO(salvo)).collect(Collectors.toList()));
-        if (thyEnemy(gamePlayer)!=null) {
-            dto.put("thyEnemySalvoes", thyEnemy(gamePlayer).getSalvos().stream().map(salvo -> salvoDTO(salvo)).collect(Collectors.toList()));
+            Map<String, Object> dto = new LinkedHashMap<String, Object>();
+            dto.put("id", gamePlayer.getGame().getId());
+            dto.put("created", gamePlayer.getGame().getDate());
+            dto.put("GamePlayers", gamePlayer.getGame().getGamePlayers().stream().map(gamePlayer1 -> gamePlayerDTO(gamePlayer1)).collect(Collectors.toList()));
+            dto.put("Ships", gamePlayer.getShips().stream().map(ship -> shipDTO(ship)).collect(Collectors.toList()));
+            dto.put("Salvos", gamePlayer.getSalvos().stream().map(salvo -> salvoDTO(salvo)).collect(Collectors.toList()));
+            if (thyEnemy(gamePlayer) != null) {
+                dto.put("thyEnemySalvoes", thyEnemy(gamePlayer).getSalvos().stream().map(salvo -> salvoDTO(salvo)).collect(Collectors.toList()));
+            }
+
+            return dto;
+        }else {
+            return sentInfo("cheater",HttpStatus.FORBIDDEN);
         }
-
-        return dto;
     }
 
     @RequestMapping("/leaderboard")

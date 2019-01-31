@@ -2,7 +2,8 @@ let tableInfo = new Vue({
    el: "#View",
    data: {
       games: {},
-      stats: {}
+      stats: {},
+      user:{}
    },
    methods: {
       getGames() {
@@ -14,6 +15,8 @@ let tableInfo = new Vue({
                tableInfo.games = data;
                console.log(this.games);
                this.dateFormat(data);
+               this.user=data.player.userName;
+               console.log(this.user);
                //this.players(data);
             });
       },
@@ -46,6 +49,16 @@ let tableInfo = new Vue({
          let year = date.getFullYear();
 
          return day + ' ' + monthNames[monthIndex] + ' ' + year;
+      },
+      changeGP(gamePlayers){
+         if(gamePlayers[0].player.userName == this.user){
+            return gamePlayers[0].id
+         }else{
+            return gamePlayers[1].id
+         }
+      },
+      addPlayer(gamePlayers){
+         //*return gamePlayers[0].id;
       }
 
    },

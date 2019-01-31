@@ -104,6 +104,7 @@ $(document).ready(function () {
     LoginModalController.initialize();
 });
 
+
 function login() {
     let login = {
         email: document.getElementById("loginEmail").value,
@@ -148,15 +149,14 @@ function login() {
 
 function redirect() {
     location.replace("http://localhost:8080/web/games.html");
-    // window.onload=function(){setTimeout(showPopup,4000)};
-
-    // function showPopup()
-    // {
-    //   alert("succesfully logged in");
-    // }
 }
 
 function signup() {
+    let register = {
+        email: document.getElementById("email").value,
+        pwd: document.getElementById("password").value
+
+    }
     fetch('/api/players' , {
         credentials: 'include',
         method: 'POST',
@@ -172,8 +172,7 @@ function signup() {
     }).then(function(response) {
         return response.json();
     }).then(function(json) {
-        console.log('parsed json', json)
- 
+        console.log('parsed json', json); 
     }).catch(function(ex) {
         console.log('parsing failed', ex)
     });

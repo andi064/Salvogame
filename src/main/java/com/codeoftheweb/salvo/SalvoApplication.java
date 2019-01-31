@@ -48,7 +48,7 @@ public class SalvoApplication {
             Player p2 = new Player("Chloe_O'Brian", "c.obrian@ctu.gov", "42"); // storing players on the player class
             Player p3 = new Player("t.almeida", "t.almeida@ctu.gov", "mole");
             Player p4 = new Player("Andi064", "love_nurse@hospital69.com", "lisen");
-            Player p5 = new Player("kim_bauer", "kimi@this.mail.com", "kb");
+            Player p5 = new Player("kim_bauer", "kimi@mail.com", "kb");
             // playerRepo.save(new Player("Jack_Bauer","j.bauer@ctu.gov"));
             // scoreRepo.save(new Score(1.0,new Date(),g1,p1));
 
@@ -276,7 +276,9 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/web/game.html").hasAuthority("USER")
                 .antMatchers("/web/script/game.js").hasAuthority("USER")
                 .antMatchers("/web/style/game.css").hasAuthority("USER")
-                .antMatchers("/web/game_view").hasAuthority("USER")
+                .antMatchers("/web/game.html").hasAuthority("USER")
+                .antMatchers("/web/game.js").hasAuthority("USER")
+                .antMatchers("/web/game.css").hasAuthority("USER")
                 .antMatchers( "/api/players").permitAll()
                 .antMatchers("/web/index.html").permitAll() // here we have to put all the files that players can acces the html,js,css etc
                 .antMatchers("/web/script/index.js").permitAll() // here we have to put all the files that players can acces the html,js,css etc

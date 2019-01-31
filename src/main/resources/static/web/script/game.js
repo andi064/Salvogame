@@ -89,9 +89,15 @@ let grid = new Vue({
                 }
             }
         }
+    },
+    cheat(){
+        if(this.fetchInfo.length <= 0){
+            document.getElementById("cheat").style.display = "none";
+        }
     }
     },
     created() {
         this.getID();
+        this.cheat();
     }
 });

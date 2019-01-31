@@ -16,14 +16,15 @@
         <h1>Kamikaze Bombing Game - 神風戦艦 </h1>
     </div>
 
-    <div class="logout" onclick="logout()">
-        <button type="button" class="btn btn-primary" >Log Out</button>
+    <div class="logout" >
+        <button type="button" class="btn btn-primary">Log Out</button>
     </div>
     <!--Div applying vue js-->
     <div id="View">
         <div class="tables">
             <div class="firstTable">
                 <h3>Games - ゲーム</h3>
+                <h5>Hello my biatch {{user}}</h5>
                 <table id="firstTable" class="table-dark">
                     <thead>
                         <tr>
@@ -41,7 +42,15 @@
                                 {{gamePlayer.player.userName}}</td>
                             <td v-if="game.gamePlayers.length == 1">{{game.gamePlayers[0].player.userName}}</td>
                             <td v-if="game.gamePlayers.length == 1">Waiting for thy enemy</td>
-
+                            <td v-if="game.gamePlayers.length == 2 && (game.gamePlayers[0].player.userName != user && game.gamePlayers[1].player.userName != user)">
+                                Full
+                            </td>
+                            <td v-if="game.gamePlayers.length == 2 && (game.gamePlayers[0].player.userName == user || game.gamePlayers[1].player.userName == user)">
+                               <a v-bind:href="'game.html?gp='+changeGP(game.gamePlayers)"> <button class="btn btn-primary">Enter</button></a>
+                            </td>
+                            <td v-if="game.gamePlayers.length == 1 && game.gamePlayers[0].player.userName != user">
+                                <a v-bind:href="'game.html?gp='+addPlayer(game.gamePlayers)"><button class="btn btn-primary">Join</button></a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
