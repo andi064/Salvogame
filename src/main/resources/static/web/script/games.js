@@ -3,7 +3,9 @@ let tableInfo = new Vue({
    data: {
       games: {},
       stats: {},
-      user:{}
+      user:{},
+      newGame:{},
+      gpID:""
    },
    methods: {
       getGames() {
@@ -31,8 +33,16 @@ let tableInfo = new Vue({
 
             });
       },
-      gameStats(data) {
-         //the fetch for the stats second table
+      createGame() {
+         fetch('/api/games',{
+            method: 'POST',
+         }).then(function (response){
+            console.log(response)
+            return response.json();
+         }).then(function (data){
+            this.gpID = data.gpID;
+            window.location = "game.html?gp=" + this.gpID;
+         });
       },
       dateFormat(date) {
 
@@ -57,8 +67,26 @@ let tableInfo = new Vue({
             return gamePlayers[1].id
          }
       },
-      addPlayer(gamePlayers){
-         //*return gamePlayers[0].id;
+      addPlayer(gameID){
+         fetch('/api/game/'+gameID+'/players',{
+            method: 'POST',
+         }).then(function (response){
+            console.log(response)
+            return response.json();
+         }).then(function (data){
+            window.location = "game.html?gp=" + data.gamePlayerID;
+         });
+      },
+      createGames(){
+         return this.gpID;
+      },
+      logout() {
+         fetch('/api/logout', {
+            method: 'POST',
+         }).then(function (response) {
+            location.replace("http://localhost:8080/web/index.html");
+            return response.json();
+         });
       }
 
    },
@@ -68,11 +96,3 @@ let tableInfo = new Vue({
    }
 });
 
-function logout() {
-   fetch('/api/logout', {
-      method: 'POST',
-   }).then(function (response) {
-      location.replace("http://localhost:8080/web/index.html");
-      return response.json();
-   });
-}

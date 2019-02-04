@@ -191,6 +191,37 @@ public class AppController {
         return map;
     }
 
+    @RequestMapping(path = "/games", method = RequestMethod.POST)
+    public ResponseEntity<Object> createGame(Authentication authentication){
+        Game game = new Game();
+        GamePlayer gamePlayer = new GamePlayer(game ,isLoged(authentication));
+        game.addGamePlayer(gamePlayer);
+        gameRepo.save(game);
+        gamePlayerRepo.save(gamePlayer);
+        return new ResponseEntity<>(sentInfo("gpID", gamePlayer.getId()),HttpStatus.CREATED);
+    }
+
+    @RequestMapping(path = "/game/{nn}/players", method = RequestMethod.POST)
+    public ResponseEntity<Object> joinGame(Authentication authentication, @PathVariable Long nn){
+        if(isLoged(authentication)==null){ // if player is logged in !!
+            return new ResponseEntity<>( "Not Logged in" ,HttpStatus.FORBIDDEN);
+        }
+        if(gameRepo.getOne(nn)==null){
+            return new ResponseEntity<>( "No game with that shit" ,HttpStatus.FORBIDDEN);
+        }
+
+        if(gameRepo.getOne(nn).getGamePlayers().size()==2){
+            return new ResponseEntity<>( "Game is full" ,HttpStatus.FORBIDDEN);
+        }
+
+        Game currentGame = gameRepo.getOne(nn);
+        Player currentPlayer = isLoged(authentication);
+
+        GamePlayer joiningGP = new GamePlayer(currentGame, currentPlayer);
+        gamePlayerRepo.save(joiningGP);
+        return new ResponseEntity<>(sentInfo("gamePlayerID", joiningGP.getId()),HttpStatus.CREATED);
+    }
+
 }
 
 
