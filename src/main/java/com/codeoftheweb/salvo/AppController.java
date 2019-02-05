@@ -8,10 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
@@ -30,6 +27,8 @@ public class AppController {
     private GamePlayerRepository gamePlayerRepo;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private ShipRepository shipRepository;
 
     @RequestMapping("/games")
     public Map<String, Object> getGame(Authentication authentication) {
@@ -222,6 +221,29 @@ public class AppController {
         return new ResponseEntity<>(sentInfo("gamePlayerID", joiningGP.getId()),HttpStatus.CREATED);
     }
 
+    @RequestMapping(path = "/games/players/{gamePlayerId}/ships", method = RequestMethod.POST)
+    public ResponseEntity<Object> placeShips(Authentication authentication, @PathVariable Long gamePlayerId,@RequestBody Set<Ship> ships){
+       GamePlayer gamePlayer= gamePlayerRepo.getOne(gamePlayerId);
+        if(isLoged(authentication)==null){ // if player is logged in !!
+            return new ResponseEntity<>(sentInfo( "Error","Not Logged in" ),HttpStatus.UNAUTHORIZED);
+        }
+        if( gamePlayer == null){
+            return new ResponseEntity<>(sentInfo( "Error","No GamePlayer found" ),HttpStatus.UNAUTHORIZED);
+        }
+        if(isLoged(authentication).getId() != gamePlayer.getPlayer().getId()){
+            return new ResponseEntity<>(sentInfo( "Error","Unauthorized" ) ,HttpStatus.UNAUTHORIZED);
+        }
+        if(gamePlayer.getShips().size()!= 0){
+            return new ResponseEntity<>(sentInfo( "Error","No ships" ) ,HttpStatus.FORBIDDEN);
+        }if(ships.size() !=  5){
+            return new ResponseEntity<>(sentInfo( "Error","Has to be 5 ships" ) ,HttpStatus.FORBIDDEN);
+        }
+        for (Ship ship : ships){
+            gamePlayer.addShip(ship);
+            shipRepository.save(ship);
+        }
+        return new ResponseEntity<>(sentInfo("gamePlayerID", gamePlayer.getId()),HttpStatus.CREATED);
+    }
 }
 
 
