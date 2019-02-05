@@ -1,5 +1,6 @@
 body{
     background-image: url("../images/backgroundThemeJap.jpg");
+   background-attachment: fixed;
 } 
 
 table{
@@ -14,24 +15,44 @@ td{
 .tables{
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
+    
+}
+
+.title h1{
+    margin-top: 30px;
+}
+
+.table1Btn{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.btn{
+    background-color: #355d81;
+    border-color: #355d81;
+}
+
+table{
+    width: 500px;
 }
 
 .firstTable table{
     background-color: rgba(0,0,0,0.5);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    text-align: center;
-    
+    text-align: center;  
+}
+.secondTable table{
+    background-color: rgba(0,0,0,0.5);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .firstTable th{
     text-align: center;
 }
 
-.secondTable table{
-    background-color: rgba(0,0,0,0.5);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
+
 
 .firstTable, .secondTable{
     display: flex;

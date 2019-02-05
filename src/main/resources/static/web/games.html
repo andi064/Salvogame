@@ -10,24 +10,31 @@
     <link rel="stylesheet" type="text/css" href="style/games.css">
 </head>
 <!-- Remember to use the clase animated "effect" to the animate css-->
+<!--Div applying vue js-->
 
 <body class="container">
-    <div class="title text-center">
-        <h1>Kamikaze Bombing Game - 神風戦艦 </h1>
-    </div>
     <div id="View">
-    <div class="logout">
-        <button type="button" class="btn btn-primary" v-on:click="logout()">Log Out</button>
-    </div>
-    <!--Div applying vue js-->
-    
+        <div class="title text-center">
+            <h1>Kamikaze Bombing Game - 神風戦艦 </h1>
+        </div>
+
+        <div class="title text-center">
+            <h5>Hello my biatch {{user}}</h5>
+        </div>
+
+        <div class="logout">
+            <button type="button" class="btn btn-primary" v-on:click="logout()">Log Out</button>
+        </div>
+
         <div class="tables">
-            <div class="buttonCreate" >
-            <button type="button" v-on:click="createGame()">Create</button>
-            </div>
+
             <div class="firstTable">
-                <h3>Games - ゲーム</h3>
-                <h5>Hello my biatch {{user}}</h5>
+                <div class="table1Btn">
+                    <h3>Games - ゲーム</h3>
+                    <div class="buttonCreate">
+                        <button type="button" class="btn btn-primary" v-on:click="createGame()">Create</button>
+                    </div>
+                </div>
                 <table id="firstTable" class="table-dark">
                     <thead>
                         <tr>
