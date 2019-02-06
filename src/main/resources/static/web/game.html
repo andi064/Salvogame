@@ -18,6 +18,10 @@
     <button>Log out</button>
     </form>-->
     <div id="gameView">
+
+        <div class="createShip">
+            <button @click="createShips()">Create Ships</button>
+        </div>
         <div id="cheat">
         <div class="playerDetails" v-if="fetchInfo.GamePlayers">
             <h5 v-if="fetchInfo.GamePlayers.length==2">

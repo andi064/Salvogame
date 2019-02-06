@@ -88,29 +88,6 @@ let tableInfo = new Vue({
             return response.json();
          });
       }
-      // ,
-      // createShips(){
-      //    fetch('/api/games/players/{gamePlayerId}/ships' , {
-      //       credentials: 'include',
-      //       method: 'POST',
-      //       headers: {
-     
-      //           'Content-Type': 'application/json'
-      //       },
-      //       body: JSON.stringify({
-      //          //  userName : document.getElementById("userName").value,
-      //          //  email : document.getElementById("email").value,
-      //          //  password : document.getElementById("password").value
-      //       })
-      //   }).then(function(response) {
-      //       return response.json();
-      //   }).then(function(json) {
-      //       console.log('parsed json', json); 
-      //   }).catch(function(ex) {
-      //       console.log('parsing failed', ex)
-      //   });
-      // }
-
    },
    created() {
       this.getGames();

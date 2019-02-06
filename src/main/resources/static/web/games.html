@@ -8,94 +8,100 @@
         crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style/animate.css">
     <link rel="stylesheet" type="text/css" href="style/games.css">
+    <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
 </head>
 <!-- Remember to use the clase animated "effect" to the animate css-->
 <!--Div applying vue js-->
 
-<body class="container">
+<body>
     <div id="View">
-        <div class="title text-center">
-            <h1>Kamikaze Bombing Game - 神風戦艦 </h1>
-        </div>
-
-        <div class="title text-center">
-            <h5>Hello my biatch {{user}}</h5>
-        </div>
-
-        <div class="logout">
-            <button type="button" class="btn btn-primary" v-on:click="logout()">Log Out</button>
-        </div>
-
-        <div class="tables">
-
-            <div class="firstTable">
-                <div class="table1Btn">
-                    <h3>Games - ゲーム</h3>
-                    <div class="buttonCreate">
-                        <button type="button" class="btn btn-primary" v-on:click="createGame()">Create</button>
+        <div class="">
+            <div class="title">
+                <div class="gameTitle">
+                    <h1>Salvo Game - 神風戦艦 </h1>
+                </div>
+                <div class="logout">
+                    <button type="button" class="btn btn-primary" v-on:click="logout()">Log Out</button>
+                </div>
+            </div>
+            <div class="title text-center">
+                <div class="user">
+                    <h5>Hello my biatch {{user}}</h5>
+                </div>
+            </div>
+            <div class="tables">
+                <div class="backgroundTable1">
+                    <div class="firstTable">
+                        <div class="table1Btn">
+                            <h3>Games - ゲーム</h3>
+                            <div class="buttonCreate">
+                                <button type="button" class="btn btn-primary" v-on:click="createGame()">Create</button>
+                            </div>
+                        </div>
+                        <table id="firstTable" class="">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Date</th>
+                                    <th>Player 1</th>
+                                    <th>Player 2</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="game in games.games">
+                                    <td>{{game.id}}</td>
+                                    <td>{{dateFormat(game.created)}}</td>
+                                    <td v-for="gamePlayer in game.gamePlayers" v-if="game.gamePlayers.length == 2">
+                                        {{gamePlayer.player.userName}}</td>
+                                    <td v-if="game.gamePlayers.length == 1">{{game.gamePlayers[0].player.userName}}</td>
+                                    <td v-if="game.gamePlayers.length == 1">Waiting for thy enemy</td>
+                                    <td v-if="game.gamePlayers.length == 2 && (game.gamePlayers[0].player.userName != user && game.gamePlayers[1].player.userName != user)">
+                                        Full
+                                    </td>
+                                    <td v-if="game.gamePlayers.length == 2 && (game.gamePlayers[0].player.userName == user || game.gamePlayers[1].player.userName == user)">
+                                        <a v-bind:href="'game.html?gp='+changeGP(game.gamePlayers)"> <button class="btn btn-primary">Enter</button></a>
+                                    </td>
+                                    <td v-if="game.gamePlayers.length == 1 && game.gamePlayers[0].player.userName != user">
+                                        <button class="btn btn-primary" @click="addPlayer(game.id)">Join</button>
+                                    </td>
+                                    <td v-if="game.gamePlayers.length == 1 && game.gamePlayers[0].player.userName == user">
+                                        <a v-bind:href="'game.html?gp='+addPlayer(game.gamePlayers)"><button class="btn btn-primary">Enter</button></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <table id="firstTable" class="table-dark">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Date</th>
-                            <th>Player 1</th>
-                            <th>Player 2</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="game in games.games">
-                            <td>{{game.id}}</td>
-                            <td>{{dateFormat(game.created)}}</td>
-                            <td v-for="gamePlayer in game.gamePlayers" v-if="game.gamePlayers.length == 2">
-                                {{gamePlayer.player.userName}}</td>
-                            <td v-if="game.gamePlayers.length == 1">{{game.gamePlayers[0].player.userName}}</td>
-                            <td v-if="game.gamePlayers.length == 1">Waiting for thy enemy</td>
-                            <td v-if="game.gamePlayers.length == 2 && (game.gamePlayers[0].player.userName != user && game.gamePlayers[1].player.userName != user)">
-                                Full
-                            </td>
-                            <td v-if="game.gamePlayers.length == 2 && (game.gamePlayers[0].player.userName == user || game.gamePlayers[1].player.userName == user)">
-                                <a v-bind:href="'game.html?gp='+changeGP(game.gamePlayers)"> <button class="btn btn-primary">Enter</button></a>
-                            </td>
-                            <td v-if="game.gamePlayers.length == 1 && game.gamePlayers[0].player.userName != user">
-                                <button class="btn btn-primary" @click="addPlayer(game.id)">Join</button>
-                            </td>
-                            <td v-if="game.gamePlayers.length == 1 && game.gamePlayers[0].player.userName == user">
-                                <a v-bind:href="'game.html?gp='+addPlayer(game.gamePlayers)"><button class="btn btn-primary">Enter</button></a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="backgroundTable2">
+                    <div class="secondTable">
+                        <div class="table2Title">
+                            <h3>Leaderboard - リーダーボード</h3>
+                        </div>
+                        <table id="secondTable" class="">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Wins</th>
+                                    <th>Draws</th>
+                                    <th>Losses</th>
+                                    <th>Total Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(stat,index) in stats">
+                                    <td>{{index}}</td>
+                                    <td>{{stat.wins}}</td>
+                                    <td>{{stat.draws}}</td>
+                                    <td>{{stat.losses}}</td>
+                                    <td>{{stat.total}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--Closing div of tables format-->
+                </div>
             </div>
-            <div class="secondTable">
-                <h3>Leaderboards - リーダーボード</h3>
-                <table id="secondTable" class="table-dark">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Wins</th>
-                            <th>Draws</th>
-                            <th>Losses</th>
-                            <th>Total Score</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(stat,index) in stats">
-                            <td>{{index}}</td>
-                            <td>{{stat.wins}}</td>
-                            <td>{{stat.draws}}</td>
-                            <td>{{stat.losses}}</td>
-                            <td>{{stat.total}}</td>
-
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!--Closing div of tables format-->
         </div>
-
-
     </div>
     <!--closing div of Vue-->
 
