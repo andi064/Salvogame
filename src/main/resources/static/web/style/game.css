@@ -4,9 +4,21 @@ body{
 }
 
 td{
-border: 1px solid red;
+border: blue;
 height: 40px;
 width: 50px;
+}
+
+.pageTitle{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.playerDetails{
+    display: flex;
+    justify-content: center;
+    text-align: center;
 }
 
 #table {
@@ -31,4 +43,9 @@ width: 50px;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-around;
+    margin-top: 100px;
+}
+
+.shipGrid{
+    border: 2px solid black;
 }

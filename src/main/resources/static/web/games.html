@@ -59,7 +59,7 @@
                                         Full
                                     </td>
                                     <td v-if="game.gamePlayers.length == 2 && (game.gamePlayers[0].player.userName == user || game.gamePlayers[1].player.userName == user)">
-                                        <a v-bind:href="'game.html?gp='+changeGP(game.gamePlayers)"> <button class="btn btn-primary">Enter</button></a>
+                                        <a v-bind:href="'game.html?gp='+changeGP(game.gamePlayers)"> <button class="btn btn-primary">Play</button></a>
                                     </td>
                                     <td v-if="game.gamePlayers.length == 1 && game.gamePlayers[0].player.userName != user">
                                         <button class="btn btn-primary" @click="addPlayer(game.id)">Join</button>

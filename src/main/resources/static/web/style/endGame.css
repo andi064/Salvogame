@@ -1,0 +1,25 @@
+body, html {
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+    overflow: hidden;
+    background-color: #000;
+}
+
+canvas {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background:#000;
+	cursor: pointer;
+}
+
+.title{
+    background: #000;
+    color: whitesmoke;
+}
+h1{
+    background: #000;
+}
