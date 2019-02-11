@@ -1,21 +1,15 @@
-body{
+body {
     background-image: url('../images/backgroundThemeJap.jpg');
     font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
-td{
-border: blue;
-height: 40px;
-width: 50px;
-}
-
-.pageTitle{
+.pageTitle {
     display: flex;
     justify-content: center;
     text-align: center;
 }
 
-.playerDetails{
+.playerDetails {
     display: flex;
     justify-content: center;
     text-align: center;
@@ -29,16 +23,17 @@ width: 50px;
     background-color: red;
 }
 
-.salvoLoc{
+.salvoLoc {
     background-color: green;
 }
 
-.salvoHit, .salvoMiss{
+.salvoHit,
+.salvoMiss {
     width: 50px;
     height: 40px;
 }
 
-.thaGrids{
+.thaGrids {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -46,6 +41,58 @@ width: 50px;
     margin-top: 100px;
 }
 
-.shipGrid{
-    border: 2px solid black;
+.shipGrid, .salvoGrid {
+    background-color: rgba(65, 135, 201, 0.7);
+}
+
+.shipGrid td, .salvoGrid td {
+    border: wheat;
+    color: wheat;
+    text-align: center;
+}
+
+td {
+    height: 40px;
+    width: 50px;
+}
+
+.carrier{
+    background-image: url('../images/carrier.png');
+    background-size: contain;
+    width: 100px;
+    height: 100px;
+}
+
+.battleship{
+    background-image: url('../images/battleship.png');
+    background-size: contain;
+    width: 100px;
+    height: 100px;
+}
+
+.submarine{
+    background-image: url('../images/submarine.png');
+    background-size: contain;
+    width: 100px;
+    height: 100px;
+}
+
+.destroyer{
+    background-image: url('../images/destroyer.png');
+    background-size: contain;
+    width: 80px;
+    height: 80px;
+}
+
+.patrolBoat{
+    background-image: url('../images/patroler.png');
+    background-size: contain;
+    width: 100px;
+    height: 100px;
+}
+
+.dragShips{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }

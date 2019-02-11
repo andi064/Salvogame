@@ -15,45 +15,53 @@
         <div class="pageTitle">
             <h1>Salvo Game - がんばろう</h1>
         </div>
-            <div class="playerDetails" v-if="fetchInfo.GamePlayers">
-                <h5 v-if="fetchInfo.GamePlayers.length==2">
-                    <span v-if="gp==fetchInfo.GamePlayers[0].id">You {{fetchInfo.GamePlayers[0].player.userName}} VS
-                        {{fetchInfo.GamePlayers[1].player.userName}} </span>
-                    <span v-else>{{fetchInfo.GamePlayers[0].player.userName}} VS
-                        {{fetchInfo.GamePlayers[1].player.userName}}
-                        You</span>
-                </h5>
-                <h5 v-else>
-                    <span v-if="gp==fetchInfo.GamePlayers[0].id">You {{fetchInfo.GamePlayers[0].player.userName}} VS
-                        Waiting for Opponent !! </span>
-                    <span v-else>Waiting for Opponent !! VS
-                        {{fetchInfo.GamePlayers[0].player.userName}}
-                        You</span>
-                </h5>
+        <div class="playerDetails" v-if="fetchInfo.GamePlayers">
+            <h5 v-if="fetchInfo.GamePlayers.length==2">
+                <span v-if="gp==fetchInfo.GamePlayers[0].id">You {{fetchInfo.GamePlayers[0].player.userName}} VS
+                    {{fetchInfo.GamePlayers[1].player.userName}} </span>
+                <span v-else>{{fetchInfo.GamePlayers[0].player.userName}} VS
+                    {{fetchInfo.GamePlayers[1].player.userName}}
+                    You</span>
+            </h5>
+            <h5 v-else>
+                <span v-if="gp==fetchInfo.GamePlayers[0].id">You {{fetchInfo.GamePlayers[0].player.userName}} VS
+                    Waiting for Opponent !! </span>
+                <span v-else>Waiting for Opponent !! VS
+                    {{fetchInfo.GamePlayers[0].player.userName}}
+                    You</span>
+            </h5>
+        </div>
+
+        <div class="createShip">
+            <button @click="createShips()">Create Ships</button>
+        </div>
+        <div class="thaGrids">
+            <div class="dragShips">
+                <div class="carrier"></div>
+                <div class="battleship"></div>
+                <div class="submarine"></div>
+                <div class="destroyer"></div>
+                <div class="patrolBoat"></div>
             </div>
-            <div class="createShip">
-                    <button @click="createShips()">Create Ships</button>
-                </div>
-            <div class="thaGrids">
-                <div class="shipGrid">
-                    <table>
-                        <tr v-for="letter,i in letters">
-                            <td v-for="number,j in numbers" v-bind:id="letter+number">
-                                <span v-if="j==0 || i==0">{{letter+number}}</span>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="salvoGrid">
-                    <table>
-                        <tr v-for="letter,k in letters">
-                            <td v-for="number,l in numbers" v-bind:id="letter+number +'s'">
-                                <span v-if="k==0 || l==0">{{letter+number}}</span>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+            <div class="shipGrid">
+                <table>
+                    <tr v-for="letter,i in letters">
+                        <td v-for="number,j in numbers" v-bind:id="letter+number">
+                            <span v-if="j==0 || i==0">{{letter+number}}</span>
+                        </td>
+                    </tr>
+                </table>
             </div>
+            <div class="salvoGrid">
+                <table>
+                    <tr v-for="letter,k in letters">
+                        <td v-for="number,l in numbers" v-bind:id="letter+number +'s'">
+                            <span v-if="k==0 || l==0">{{letter+number}}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
