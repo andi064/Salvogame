@@ -37,16 +37,26 @@
         </div>
         <div class="thaGrids">
             <div class="dragShips">
-                <div class="carrier"></div>
-                <div class="battleship"></div>
-                <div class="submarine"></div>
-                <div class="destroyer"></div>
-                <div class="patrolBoat"></div>
+                <div class="carrier"  ondragstart="dragStart(event)">
+                    <img src="../web/images/carrier.png" alt="carrier.png" id="Carrier" >
+                </div>
+                <div class="battleship" ondragstart="dragStart(event)">
+                    <img src="../web/images/battleship.png" alt="battleship.png" id="Battleship">
+                </div>
+                <div class="submarine" ondragstart="dragStart(event)">
+                    <img src="../web/images/submarine.png" alt="submarine.png" id="Submarine" >
+                </div>
+                <div class="destroyer" ondragstart="dragStart(event)">
+                    <img src="../web/images/destroyer.png" alt="destroyer.png"  id="Destroyer">
+                </div>
+                <div class="patrolBoat" ondragstart="dragStart(event)">
+                    <img src="../web/images/patroler.png" alt="patroler.png"  id="PatrolBoat">
+                </div>
             </div>
             <div class="shipGrid">
                 <table>
                     <tr v-for="letter,i in letters">
-                        <td v-for="number,j in numbers" v-bind:id="letter+number">
+                        <td v-for="number,j in numbers" v-bind:id="letter+number"  ondragstart="dragStart(event)" ondragover="allowDrop(event)" ondrop="drop(event)">
                             <span v-if="j==0 || i==0">{{letter+number}}</span>
                         </td>
                     </tr>

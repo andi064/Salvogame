@@ -5,6 +5,7 @@ let grid = new Vue({
         numbers: [" ", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
         fetchInfo: {},
         gp: "",
+        id:"",
         ships: [{
                 type: "Carrier",
                 myLocation: ["A3", "A4", "A5", "A6", "A7"]
@@ -59,20 +60,6 @@ let grid = new Vue({
                     }
                 }
             }
-            // },
-            // playerDetails(fetchInfo){
-            //     let playerInfo = fetchInfo.GamePlayers;
-            //     console.log(playerInfo[0].player.userName)
-            //     for(let i = 0; i < playerInfo.length; i++){
-            //         if(playerInfo[i].id == this.gp){
-            //             this.player1 = playerInfo[i].player.userName;
-            //             console.log(player1);
-            //         }else{
-            //             this.players2 = playerInfo[i].player.userName;
-            //             console.log(player1);
-
-            //         }
-            //     }
 
         },
         salvoLocation(fetchInfo) {
@@ -134,9 +121,35 @@ let grid = new Vue({
                 console.log('parsing failed', ex)
             });
         }
+        // ,
+        // allowDrop(ev){
+        //     ev.preventDefault();
+        // },
+        // dragStart(ev){
+        //     this.id=ev.target.id;
+        // },
+        // drop(ev){
+        //     ev.target.append(document.getElementById(this.id));
+        // }
     },
     created() {
         this.getID();
         this.cheat();
     }
 });
+
+let id = null;
+function allowDrop(ev){
+    ev.preventDefault();
+}
+
+function dragStart(ev){
+    id=ev.target.id;
+    console.log("it works",id)
+}
+function drop(ev){
+    ev.target.append(document.getElementById(id));
+   console.log(id)
+   id=null;
+   console.log(id)
+}
