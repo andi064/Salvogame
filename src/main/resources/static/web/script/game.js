@@ -5,7 +5,7 @@ let grid = new Vue({
         numbers: [" ", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
         fetchInfo: {},
         gp: "",
-        id:"",
+        id: "",
         ships: [{
                 type: "Carrier",
                 myLocation: ["A3", "A4", "A5", "A6", "A7"]
@@ -23,10 +23,36 @@ let grid = new Vue({
                 myLocation: ["J7", "J8", "J9"]
             },
             {
-                type: "Patrol Boat",
+                type: "PatrolBoat",
                 myLocation: ["E9", "F9", "G9"]
             }
-        ]
+        ],
+        ship : [{
+            type: "Carrier",
+            myLocation: [], //has to store the location of the ship after placement 
+            size: 5
+        },
+        {
+            type: "Battleship",
+            myLocation: [],
+            size: 4
+        },
+        {
+            type: "Submarine",
+            myLocation: [],
+            size: 3
+        },
+        {
+            type: "Destroyer",
+            myLocation: [],
+            size: 3
+        },
+        {
+            type: "PatrolBoat",
+            myLocation: [],
+            size: 2
+        }
+    ]
     },
     methods: {
         getID() {
@@ -104,7 +130,7 @@ let grid = new Vue({
             }
         },
         createShips() {
-            fetch('/api/games/players/'+grid.gp+'/ships', {
+            fetch('/api/games/players/' + grid.gp + '/ships', {
                 credentials: 'include',
                 method: 'POST',
                 headers: {
@@ -120,36 +146,46 @@ let grid = new Vue({
             }).catch(function (ex) {
                 console.log('parsing failed', ex)
             });
+        },
+        allowDrop(ev) {
+            ev.preventDefault();
+        },
+        dragStart(ev) {
+            console.log(ev);
+            this.id = ev.target.id;
+            console.log("It Works", this.id);
+        },
+        drop(ev) {
+            document.querySelectorAll(".shipGrid td").forEach(cell => cell.classList.remove("ships"));
+            let letters = ev.target.id.substr(0, 1);
+            let numbers = ev.target.id.substr(1, 2);
+            console.log(letters)
+            ev.target.append(document.getElementById(this.id));
+            console.log(this.id)
+            for (let u = 0; u < this.ship[this.id].size; u++) {
+                document.getElementById(letters + (Number(numbers) + u)).classList.add("ships");
+                if(this.ship[this.id].size == 5 ){
+                    this.ship[0].myLocation.push(letters + (Number(numbers) + u));
+                }
+                if(this.ship[this.id].size == 4 ){
+                    this.ship[1].myLocation.push(letters + (Number(numbers) + u));
+                }
+                if(this.ship[this.id].size == 3 ){
+                    this.ship[2].myLocation.push(letters + (Number(numbers) + u));
+                }
+                if(this.ship[this.id].size == 3 ){
+                    this.ship[3].myLocation.push(letters + (Number(numbers) + u));
+                }
+                if(this.ship[this.id].size == 2 ){
+                    this.ship[4].myLocation.push(letters + (Number(numbers) + u));
+                }
+                console.log(letters + (Number(numbers) + u));
+            }
+            this.id = null;
         }
-        // ,
-        // allowDrop(ev){
-        //     ev.preventDefault();
-        // },
-        // dragStart(ev){
-        //     this.id=ev.target.id;
-        // },
-        // drop(ev){
-        //     ev.target.append(document.getElementById(this.id));
-        // }
     },
     created() {
         this.getID();
         this.cheat();
     }
 });
-
-let id = null;
-function allowDrop(ev){
-    ev.preventDefault();
-}
-
-function dragStart(ev){
-    id=ev.target.id;
-    console.log("it works",id)
-}
-function drop(ev){
-    ev.target.append(document.getElementById(id));
-   console.log(id)
-   id=null;
-   console.log(id)
-}

@@ -37,26 +37,26 @@
         </div>
         <div class="thaGrids">
             <div class="dragShips">
-                <div class="carrier"  ondragstart="dragStart(event)">
-                    <img src="../web/images/carrier.png" alt="carrier.png" id="Carrier" >
+                <div class="carrier"  @dragstart="dragStart">
+                    <img src="../web/images/carrier.png" alt="carrier.png" id="0" >
                 </div>
-                <div class="battleship" ondragstart="dragStart(event)">
-                    <img src="../web/images/battleship.png" alt="battleship.png" id="Battleship">
+                <div class="battleship" @dragstart="dragStart">
+                    <img src="../web/images/battleship.png" alt="battleship.png" id="1">
                 </div>
-                <div class="submarine" ondragstart="dragStart(event)">
-                    <img src="../web/images/submarine.png" alt="submarine.png" id="Submarine" >
+                <div class="submarine" @dragstart="dragStart">
+                    <img src="../web/images/submarine.png" alt="submarine.png" id="2" >
                 </div>
-                <div class="destroyer" ondragstart="dragStart(event)">
-                    <img src="../web/images/destroyer.png" alt="destroyer.png"  id="Destroyer">
+                <div class="destroyer" @dragstart="dragStart">
+                    <img src="../web/images/destroyer.png" alt="destroyer.png"  id="3">
                 </div>
-                <div class="patrolBoat" ondragstart="dragStart(event)">
-                    <img src="../web/images/patroler.png" alt="patroler.png"  id="PatrolBoat">
+                <div class="patrolBoat" @dragstart="dragStart">
+                    <img src="../web/images/patroler.png" alt="patroler.png"  id="4">
                 </div>
             </div>
             <div class="shipGrid">
                 <table>
                     <tr v-for="letter,i in letters">
-                        <td v-for="number,j in numbers" v-bind:id="letter+number"  ondragstart="dragStart(event)" ondragover="allowDrop(event)" ondrop="drop(event)">
+                        <td v-for="number,j in numbers" v-bind:id="letter+number" @dragstart="dragStart" @dragover="allowDrop" @drop="drop">
                             <span v-if="j==0 || i==0">{{letter+number}}</span>
                         </td>
                     </tr>

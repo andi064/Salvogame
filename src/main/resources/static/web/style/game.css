@@ -56,6 +56,10 @@ td {
     width: 50px;
 }
 
+.ships{
+    background-color: red;
+}
+
 /* .carrier{
     background-image: url('../images/carrier.png');
     background-size: contain;
@@ -107,3 +111,4 @@ td img{
     width: 50px;
     height: 50px;
 }
+
