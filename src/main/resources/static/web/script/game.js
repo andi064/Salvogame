@@ -6,27 +6,7 @@ let grid = new Vue({
         fetchInfo: {},
         gp: "",
         id: "",
-        ships: [{
-                type: "Carrier",
-                myLocation: ["A3", "A4", "A5", "A6", "A7"]
-            },
-            {
-                type: "Battleship",
-                myLocation: ["C3", "D3", "E3", "F3"]
-            },
-            {
-                type: "Submarine",
-                myLocation: ["I5", "I6", "I7"]
-            },
-            {
-                type: "Destroyer",
-                myLocation: ["J7", "J8", "J9"]
-            },
-            {
-                type: "PatrolBoat",
-                myLocation: ["E9", "F9", "G9"]
-            }
-        ],
+        testShip: " ",//array to store the current valid position of the boats
         ship : [{
             type: "Carrier",
             myLocation: [], //has to store the location of the ship after placement 
@@ -82,7 +62,7 @@ let grid = new Vue({
                 for (let i = 0; i < ship.length; i++) {
                     for (let j = 0; j < fetchInfo.Ships[i].Ship_Location.length; j++) {
                         // console.log(fetchInfo.Ships[i].Ship_Location[j]);
-                        document.getElementById(fetchInfo.Ships[i].Ship_Location[j]).className += "shipLoc";
+                        document.getElementById(fetchInfo.Ships[i].Ship_Location[j]).classList.add("shipLoc");
                     }
                 }
             }
@@ -134,10 +114,9 @@ let grid = new Vue({
                 credentials: 'include',
                 method: 'POST',
                 headers: {
-
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(grid.ships)
+                body: JSON.stringify(grid.ship)
             }).then(function (response) {
                 return response.json();
             }).then(function (json) {
@@ -147,13 +126,16 @@ let grid = new Vue({
                 console.log('parsing failed', ex)
             });
         },
+        goBack(){
+            location.replace("/web/games.html");
+        },
         allowDrop(ev) {
             ev.preventDefault();
         },
         dragStart(ev) {
             console.log(ev);
             this.id = ev.target.id;
-            console.log("It Works", this.id);
+            console.log("It Works //","ship_id : ", this.id);
         },
         drop(ev) {
             document.querySelectorAll(".shipGrid td").forEach(cell => cell.classList.remove("ships"));
@@ -189,3 +171,16 @@ let grid = new Vue({
         this.cheat();
     }
 });
+
+$(document).ready(function() {
+    var movementStrength = 10;
+    var height = movementStrength / $(window).height();
+    var width = movementStrength / $(window).width();
+    $("#top-image").mousemove(function(e){
+              var pageX = e.pageX - ($(window).width() / 2);
+              var pageY = e.pageY - ($(window).height() / 2);
+              var newvalueX = width * pageX * -1 - 25;
+              var newvalueY = height * pageY * -1 - 50;
+              $('#top-image').css("background-position", newvalueX+"px     "+newvalueY+"px");
+    });
+    });

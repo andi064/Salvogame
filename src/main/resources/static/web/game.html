@@ -8,9 +8,10 @@
         crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="style/animate.css">
     <link rel="stylesheet" type="text/css" href="style/game.css">
+    <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
 </head>
 
-<body>
+<body id="top-image">
     <div id="gameView">
         <div class="pageTitle">
             <h1>Salvo Game - がんばろう</h1>
@@ -31,47 +32,51 @@
                     You</span>
             </h5>
         </div>
+        <div class="goBack"><button @click="goBack()">Go Back!</button></div>
 
         <div class="createShip">
             <button @click="createShips()">Create Ships</button>
         </div>
         <div class="thaGrids">
-            <div class="dragShips">
-                <div class="carrier"  @dragstart="dragStart">
-                    <img src="../web/images/carrier.png" alt="carrier.png" id="0" >
-                </div>
-                <div class="battleship" @dragstart="dragStart">
-                    <img src="../web/images/battleship.png" alt="battleship.png" id="1">
-                </div>
-                <div class="submarine" @dragstart="dragStart">
-                    <img src="../web/images/submarine.png" alt="submarine.png" id="2" >
-                </div>
-                <div class="destroyer" @dragstart="dragStart">
-                    <img src="../web/images/destroyer.png" alt="destroyer.png"  id="3">
-                </div>
-                <div class="patrolBoat" @dragstart="dragStart">
-                    <img src="../web/images/patroler.png" alt="patroler.png"  id="4">
-                </div>
-            </div>
             <div class="shipGrid">
-                <table>
-                    <tr v-for="letter,i in letters">
-                        <td v-for="number,j in numbers" v-bind:id="letter+number" @dragstart="dragStart" @dragover="allowDrop" @drop="drop">
-                            <span v-if="j==0 || i==0">{{letter+number}}</span>
-                        </td>
-                    </tr>
-                </table>
+                <div class="shipLayout">
+                    <table>
+                        <tr v-for="letter,i in letters">
+                            <td v-for="number,j in numbers" v-bind:id="letter+number" @dragstart="dragStart" @dragover="allowDrop"
+                                @drop="drop">
+                                <span v-if="j==0 || i==0">{{letter+number}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="dragShips">
+                        <div class="carrier" @dragstart="dragStart" id="0"></div>
+                        <div class="battleship" @dragstart="dragStart" id="1"></div>
+                        <div class="submarine" @dragstart="dragStart" id="2"></div>
+                        <div class="destroyer" @dragstart="dragStart" id="3"></div>
+                        <div class="patrolBoat" @dragstart="dragStart" id="4"></div>
+                    </div>
+                </div>
             </div>
             <div class="salvoGrid">
-                <table>
-                    <tr v-for="letter,k in letters">
-                        <td v-for="number,l in numbers" v-bind:id="letter+number +'s'">
-                            <span v-if="k==0 || l==0">{{letter+number}}</span>
-                        </td>
-                    </tr>
-                </table>
+                <div class="salvoLayout">
+                    <table>
+                        <tr v-for="letter,k in letters">
+                            <td v-for="number,l in numbers" v-bind:id="letter+number +'s'">
+                                <span v-if="k==0 || l==0">{{letter+number}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="dragSalvos">
+                        <div class="s1" @dragstart="" id=""></div>
+                        <div class="s2" @dragstart="" id=""></div>
+                        <div class="s3" @dragstart="" id=""></div>
+                        <div class="s4" @dragstart="" id=""></div>
+                        <div class="s5" @dragstart="" id=""></div>
+                    </div>
+                </div>
             </div>
         </div>
+
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -80,6 +85,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" src="script/game.js"></script>
 </body>
 

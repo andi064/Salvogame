@@ -1,7 +1,20 @@
 body {
-    background-image: url('../images/backgroundThemeJap.jpg');
-    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-family:'Acme', sans-serif;
 }
+
+#top-image {
+    background: url('../images/game_background.jpg') -25px -50px;
+    /* position: fixed; */
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    top: 0;
+    width: 100%;
+    z-index: 0;
+    height: 100%;
+    background-size: calc(100% + 50px);
+}
+
+
 
 .pageTitle {
     display: flex;
@@ -41,26 +54,28 @@ body {
     margin-top: 100px;
 }
 
-.shipGrid, .salvoGrid {
+.shipGrid,
+.salvoGrid {
     background-color: rgba(65, 135, 201, 0.7);
 }
 
-.shipGrid td, .salvoGrid td {
+.shipGrid td,
+.salvoGrid td {
     border: wheat;
     color: wheat;
     text-align: center;
 }
 
 td {
-    height: 40px;
+    height: 50px;
     width: 50px;
 }
 
-.ships{
+.ships {
     background-color: red;
 }
 
-/* .carrier{
+.carrier{
     background-image: url('../images/carrier.png');
     background-size: contain;
     width: 100px;
@@ -84,8 +99,8 @@ td {
 .destroyer{
     background-image: url('../images/destroyer.png');
     background-size: contain;
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
 }
 
 .patrolBoat{
@@ -93,22 +108,32 @@ td {
     background-size: contain;
     width: 100px;
     height: 100px;
-} */
+}
 
-.dragShips{
+.dragShips {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-color:  rgba(65, 135, 201, 0.7);
+    flex-direction: row;
+    justify-content: space-around;
+    width: 35%;
+    margin-right: 5%;
+    background-color: rgba(65, 135, 201, 0.7);
+    
 }
 
-.carrier img, .battleship img, .submarine img, .destroyer img, .patrolBoat img{
+.s1, .s2, .s3, .s4, .s5{
+    background-image: url('../images/salvo.png');
+    background-size: contain;
     width: 50px;
     height: 50px;
 }
 
-td img{
-    width: 50px;
-    height: 50px;
+.dragSalvos{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 35%;
+    margin-left: 5%;
+    background-color: rgba(65, 135, 201, 0.7);
 }
+
 
