@@ -37,24 +37,33 @@
         <div class="createShip">
             <button @click="createShips()">Create Ships</button>
         </div>
+        <div class="dragShips" id="shipsDiv">
+            <div class="relativePos">
+                <div class="carrier" draggable="true" @dragstart="dragStart" id="0"></div>
+            </div>
+            <div class="relativePos">
+                <div class="battleship" draggable="true" @dragstart="dragStart" id="1"></div>
+            </div>
+            <div class="relativePos">
+                <div class="submarine" draggable="true" @dragstart="dragStart" id="2"></div>
+            </div>
+            <div class="relativePos">
+                <div class="destroyer" draggable="true" @dragstart="dragStart" id="3"></div>
+            </div>
+            <div class="relativePos">
+                <div class="patrolBoat" draggable="true" @dragstart="dragStart" id="4"></div>
+            </div>
+        </div>
         <div class="thaGrids">
             <div class="shipGrid">
                 <div class="shipLayout">
                     <table>
                         <tr v-for="letter,i in letters">
-                            <td v-for="number,j in numbers" v-bind:id="letter+number" @dragstart="dragStart" @dragover="allowDrop"
-                                @drop="drop">
+                            <td v-for="number,j in numbers" v-bind:id="letter+number" @dragover="allowDrop" @drop="drop">
                                 <span v-if="j==0 || i==0">{{letter+number}}</span>
                             </td>
                         </tr>
                     </table>
-                    <div class="dragShips">
-                        <div class="carrier" @dragstart="dragStart" id="0"></div>
-                        <div class="battleship" @dragstart="dragStart" id="1"></div>
-                        <div class="submarine" @dragstart="dragStart" id="2"></div>
-                        <div class="destroyer" @dragstart="dragStart" id="3"></div>
-                        <div class="patrolBoat" @dragstart="dragStart" id="4"></div>
-                    </div>
                 </div>
             </div>
             <div class="salvoGrid">
@@ -66,17 +75,17 @@
                             </td>
                         </tr>
                     </table>
-                    <div class="dragSalvos">
-                        <div class="s1" @dragstart="" id=""></div>
-                        <div class="s2" @dragstart="" id=""></div>
-                        <div class="s3" @dragstart="" id=""></div>
-                        <div class="s4" @dragstart="" id=""></div>
-                        <div class="s5" @dragstart="" id=""></div>
-                    </div>
+
                 </div>
             </div>
         </div>
-
+        <div class="dragSalvos">
+            <div class="s1" draggable="true" id="s1"></div>
+            <div class="s2" draggable="true" @dragstart="" id="s2"></div>
+            <div class="s3" draggable="true" @dragstart="" id="s3"></div>
+            <div class="s4" draggable="true" @dragstart="" id="s4"></div>
+            <div class="s5" draggable="true" @dragstart="" id="s5"></div>
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>

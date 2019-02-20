@@ -6,33 +6,36 @@ let grid = new Vue({
         fetchInfo: {},
         gp: "",
         id: "",
-        testShip: " ",//array to store the current valid position of the boats
-        ship : [{
-            type: "Carrier",
-            myLocation: [], //has to store the location of the ship after placement 
-            size: 5
-        },
-        {
-            type: "Battleship",
-            myLocation: [],
-            size: 4
-        },
-        {
-            type: "Submarine",
-            myLocation: [],
-            size: 3
-        },
-        {
-            type: "Destroyer",
-            myLocation: [],
-            size: 3
-        },
-        {
-            type: "PatrolBoat",
-            myLocation: [],
-            size: 2
-        }
-    ]
+        shipsDiv: "",
+        testShip: " ", //array to store the current valid position of the boats
+        ship: [{
+                type: "Carrier",
+                myLocation: [], //has to store the location of the ship after placement 
+                size: 5
+            },
+            {
+                type: "Battleship",
+                myLocation: [],
+                size: 4
+            },
+            {
+                type: "Submarine",
+                myLocation: [],
+                size: 3
+            },
+            {
+                type: "Destroyer",
+                myLocation: [],
+                size: 3
+            },
+            {
+                type: "PatrolBoat",
+                myLocation: [],
+                size: 2
+            }
+        ],
+        salvos: [],
+        shipcount: 5,
     },
     methods: {
         getID() {
@@ -126,16 +129,24 @@ let grid = new Vue({
                 console.log('parsing failed', ex)
             });
         },
-        goBack(){
+        goBack() {
             location.replace("/web/games.html");
         },
         allowDrop(ev) {
             ev.preventDefault();
         },
+        allowDropSalvo(ev) {
+            ev.preventDefault();
+        },
         dragStart(ev) {
             console.log(ev);
             this.id = ev.target.id;
-            console.log("It Works //","ship_id : ", this.id);
+            console.log("It Works //", "ship_id : ", this.id);
+        },
+        dragStartSalvo(ev) {
+            console.log(ev);
+            this.id = ev.target.id;
+            console.log("salvos dragg", this.id);
         },
         drop(ev) {
             document.querySelectorAll(".shipGrid td").forEach(cell => cell.classList.remove("ships"));
@@ -146,24 +157,46 @@ let grid = new Vue({
             console.log(this.id)
             for (let u = 0; u < this.ship[this.id].size; u++) {
                 document.getElementById(letters + (Number(numbers) + u)).classList.add("ships");
-                if(this.ship[this.id].size == 5 ){
+                if (this.ship[this.id].size == 5) {
                     this.ship[0].myLocation.push(letters + (Number(numbers) + u));
                 }
-                if(this.ship[this.id].size == 4 ){
+                if (this.ship[this.id].size == 4) {
                     this.ship[1].myLocation.push(letters + (Number(numbers) + u));
                 }
-                if(this.ship[this.id].size == 3 ){
+                if (this.ship[this.id].size == 3) {
                     this.ship[2].myLocation.push(letters + (Number(numbers) + u));
                 }
-                if(this.ship[this.id].size == 3 ){
+                if (this.ship[this.id].size == 3) {
                     this.ship[3].myLocation.push(letters + (Number(numbers) + u));
                 }
-                if(this.ship[this.id].size == 2 ){
+                if (this.ship[this.id].size == 2) {
                     this.ship[4].myLocation.push(letters + (Number(numbers) + u));
                 }
                 console.log(letters + (Number(numbers) + u));
             }
+            this.countShips();
             this.id = null;
+        },
+        salvoDrop(ev) {
+            document.querySelectorAll(".salvoLoc td").forEach(cell => cell.classList.remove("salvos"));
+            let letters = ev.target.id.substr(0, 1);
+            let numbers = ev.target.id.substr(1, 2);
+            ev.target.append(document.getElementById(this.id));
+            document.getElementById(letters + (Number(numbers) + u)).classList.add("salvos");
+            this.salvos.push(letters + (Number(numbers) + u));
+            console.log(letters + (Number(numbers) + u));
+            this.id = null;
+        },
+        countShips() {
+            this.shipsDiv = $("#shipsDiv > div").length;
+            console.log(this.shipsDiv);
+            let x = this.shipcount - 1;
+            this.shipcount = x;
+            console.log(x);
+            if (x == 0) {
+                let div = document.getElementById("shipsDiv");
+                div.style.display = "none";
+            }
         }
     },
     created() {
@@ -172,15 +205,15 @@ let grid = new Vue({
     }
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
     var movementStrength = 10;
     var height = movementStrength / $(window).height();
     var width = movementStrength / $(window).width();
-    $("#top-image").mousemove(function(e){
-              var pageX = e.pageX - ($(window).width() / 2);
-              var pageY = e.pageY - ($(window).height() / 2);
-              var newvalueX = width * pageX * -1 - 25;
-              var newvalueY = height * pageY * -1 - 50;
-              $('#top-image').css("background-position", newvalueX+"px     "+newvalueY+"px");
+    $("#top-image").mousemove(function (e) {
+        var pageX = e.pageX - ($(window).width() / 2);
+        var pageY = e.pageY - ($(window).height() / 2);
+        var newvalueX = width * pageX * -1 - 25;
+        var newvalueY = height * pageY * -1 - 50;
+        $('#top-image').css("background-position", newvalueX + "px " + newvalueY + "px");
     });
-    });
+});

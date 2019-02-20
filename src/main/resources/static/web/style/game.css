@@ -1,5 +1,5 @@
 body {
-    font-family:'Acme', sans-serif;
+    font-family: 'Acme', sans-serif;
 }
 
 #top-image {
@@ -67,67 +67,96 @@ body {
 }
 
 td {
+    position: relative;
+    /* background-image: contain; */
     height: 50px;
     width: 50px;
+
+}
+
+td :hover {
+    border: 1px whitesmoke solid;
 }
 
 .ships {
-    background-color: red;
+    border: solid 1px whitesmoke;
+    background-color: aqua;
 }
 
-.carrier{
+.carrier {
     background-image: url('../images/carrier.png');
-    background-size: contain;
-    width: 100px;
-    height: 100px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 250px;
+    height: 50px;
+    position: absolute;
+    top: 0;
+    z-index: 1;
 }
 
-.battleship{
+.battleship {
     background-image: url('../images/battleship.png');
-    background-size: contain;
-    width: 100px;
-    height: 100px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 200px;
+    height: 50px;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    /* margin-top: 60px;
+    margin-left: 150px; */
 }
 
-.submarine{
+.submarine {
     background-image: url('../images/submarine.png');
-    background-size: contain;
-    width: 100px;
-    height: 100px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 150px;
+    height: 50px;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    /* margin-left: 270px; */
 }
 
-.destroyer{
+.destroyer {
     background-image: url('../images/destroyer.png');
-    background-size: contain;
-    width: 100px;
-    height: 100px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 150px;
+    height: 50px;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    /* margin-top: 60px; */
 }
 
-.patrolBoat{
+.patrolBoat {
     background-image: url('../images/patroler.png');
-    background-size: contain;
+    background-size: 100%;
+    background-repeat: no-repeat;
     width: 100px;
-    height: 100px;
+    height: 50px;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    /* margin-top: 70px;
+    margin-left: 360px; */
 }
 
-.dragShips {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    width: 35%;
-    margin-right: 5%;
-    background-color: rgba(65, 135, 201, 0.7);
-    
-}
-
-.s1, .s2, .s3, .s4, .s5{
+.s1,
+.s2,
+.s3,
+.s4,
+.s5 {
     background-image: url('../images/salvo.png');
+    background-repeat: no-repeat;
     background-size: contain;
     width: 50px;
     height: 50px;
 }
 
-.dragSalvos{
+.dragSalvos {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -136,4 +165,15 @@ td {
     background-color: rgba(65, 135, 201, 0.7);
 }
 
+.dragShips {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    background-color: rgba(65, 135, 201, 0.7);
+    width: 500px;
+    height: 100px;
+}
 
+.relativePos{
+    position: relative;
+}
