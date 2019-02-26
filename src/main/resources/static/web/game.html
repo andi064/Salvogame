@@ -34,8 +34,8 @@
         </div>
         <div class="goBack"><button @click="goBack()">Go Back!</button></div>
 
-        <div class="createShip">
-            <button @click="createShips()">Create Ships</button>
+        <div class="createShip" id="createShipsButton">
+            <button @click="createShips()">Place Ships</button>
         </div>
         <div class="dragShips" id="shipsDiv">
             <div class="relativePos">
@@ -70,7 +70,7 @@
                 <div class="salvoLayout">
                     <table>
                         <tr v-for="letter,k in letters">
-                            <td v-for="number,l in numbers" v-bind:id="letter+number +'s'">
+                            <td v-for="number,l in numbers" v-bind:id="letter+number +'s'" @dragover="allowDropSalvo" @drop="salvoDrop">
                                 <span v-if="k==0 || l==0">{{letter+number}}</span>
                             </td>
                         </tr>
@@ -80,11 +80,11 @@
             </div>
         </div>
         <div class="dragSalvos">
-            <div class="s1" draggable="true" id="s1"></div>
-            <div class="s2" draggable="true" @dragstart="" id="s2"></div>
-            <div class="s3" draggable="true" @dragstart="" id="s3"></div>
-            <div class="s4" draggable="true" @dragstart="" id="s4"></div>
-            <div class="s5" draggable="true" @dragstart="" id="s5"></div>
+            <div class="s1" draggable="true" @dragstart="dragStartSalvo" id="s1"></div>
+            <div class="s2" draggable="true" @dragstart="dragStartSalvo" id="s2"></div>
+            <div class="s3" draggable="true" @dragstart="dragStartSalvo" id="s3"></div>
+            <div class="s4" draggable="true" @dragstart="dragStartSalvo" id="s4"></div>
+            <div class="s5" draggable="true" @dragstart="dragStartSalvo" id="s5"></div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

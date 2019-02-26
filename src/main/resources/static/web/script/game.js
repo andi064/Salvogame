@@ -34,7 +34,7 @@ let grid = new Vue({
                 size: 2
             }
         ],
-        salvos: [],
+        salvoLoc: [],//only a list of locations
         shipcount: 5,
     },
     methods: {
@@ -128,6 +128,11 @@ let grid = new Vue({
             }).catch(function (ex) {
                 console.log('parsing failed', ex)
             });
+            this.displayNone();
+        },
+        displayNone(){
+            document.getElementById("createShipsButton").style.display="none";
+            document.getElementById("shipsDiv").style.display = "none";
         },
         goBack() {
             location.replace("/web/games.html");
@@ -183,7 +188,7 @@ let grid = new Vue({
             let numbers = ev.target.id.substr(1, 2);
             ev.target.append(document.getElementById(this.id));
             document.getElementById(letters + (Number(numbers) + u)).classList.add("salvos");
-            this.salvos.push(letters + (Number(numbers) + u));
+            this.salvoLocation.push(letters + (Number(numbers) + u));
             console.log(letters + (Number(numbers) + u));
             this.id = null;
         },

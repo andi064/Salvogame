@@ -49,17 +49,13 @@ public class SalvoApplication {
             Player p3 = new Player("t.almeida", "t.almeida@ctu.gov", "mole");
             Player p4 = new Player("Andi064", "love_nurse@hospital69.com", "lisen");
             Player p5 = new Player("kim_bauer", "kimi@mail.com", "kb");
-            // playerRepo.save(new Player("Jack_Bauer","j.bauer@ctu.gov"));
-            // scoreRepo.save(new Score(1.0,new Date(),g1,p1));
 
             playerRepo.save(p1);
             playerRepo.save(p2);
             playerRepo.save(p3);
             playerRepo.save(p4);
             playerRepo.save(p5);
-
             // save a couple of game dates
-
             Game g1 = new Game();
             Game g2 = new Game();
             Game g3 = new Game();
@@ -68,7 +64,6 @@ public class SalvoApplication {
             Game g6 = new Game();
             Game g7 = new Game();
             Game g8 = new Game();
-
             gameRepo.save(g1);
             gameRepo.save(g2);
             gameRepo.save(g3);
@@ -77,15 +72,6 @@ public class SalvoApplication {
             gameRepo.save(g6);
             gameRepo.save(g7);
             gameRepo.save(g8);
-
-            // save a couple of ship Locations
-
-//            ArrayList<String> Carrier = new ArrayList<String>();
-//            Carrier.add("A1");//Adding object in arraylist
-//            Carrier.add("B1");
-//            Carrier.add("C1");
-//            Carrier.add("D1");
-//            Carrier.add("E1");
 
             ArrayList<String> Battleship = new ArrayList<String>();
             Battleship.add("H1");//Adding object in arraylist
@@ -105,13 +91,6 @@ public class SalvoApplication {
             PatrolBoat.add("C6");//Adding object in arraylist
             PatrolBoat.add("C7");
 
-//            ArrayList<String> Carrier_2 = new ArrayList<String>();
-//            Carrier.add("A3");//Adding object in arraylist
-//            Carrier.add("B3");
-//            Carrier.add("C3");
-//            Carrier.add("D3");
-//            Carrier.add("E3");
-
             ArrayList<String> Battleship_2 = new ArrayList<String>();
             Battleship_2.add("H3");//Adding object in arraylist
             Battleship_2.add("H4");
@@ -129,7 +108,6 @@ public class SalvoApplication {
             ArrayList<String> PatrolBoat_2 = new ArrayList<String>();
             PatrolBoat_2.add("F1");//Adding object in arraylist
             PatrolBoat_2.add("F2");
-
 
             //Ship sh1 = new Ship("Carrier_1", Carrier );
             Ship sh2 = new Ship("Battleship", Battleship);
