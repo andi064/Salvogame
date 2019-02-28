@@ -34,8 +34,9 @@ let grid = new Vue({
                 size: 2
             }
         ],
-        salvoLoc: [],//only a list of locations
+        salvoLoc: [], //only a list of locations
         shipcount: 5,
+        overlap: false
     },
     methods: {
         getID() {
@@ -130,8 +131,8 @@ let grid = new Vue({
             });
             this.displayNone();
         },
-        displayNone(){
-            document.getElementById("createShipsButton").style.display="none";
+        displayNone() {
+            document.getElementById("createShipsButton").style.display = "none";
             document.getElementById("shipsDiv").style.display = "none";
         },
         goBack() {
@@ -139,9 +140,28 @@ let grid = new Vue({
         },
         allowDrop(ev) {
             ev.preventDefault();
+            console.log("allowDrop")
+            this.overlap = false;
+            let letters = ev.target.id.substr(0, 1);
+            let numbers = ev.target.id.substr(1, 2);
+            console.log(ev.target.id)
+            console.log(letters)
+            console.log(numbers)
+            for (let u = 0; u < this.ship[this.id].size; u++) {
+                console.log(letters + (Number(numbers) + u));
+                if (document.getElementById(ev.target.id).classList.contains("s")) {
+                    this.overlap = true;
+                    break;
+                }
+
+                console.log(letters + (Number(numbers) + u));
+            }
+
+            console.log(this.overlap)
         },
         allowDropSalvo(ev) {
             ev.preventDefault();
+
         },
         dragStart(ev) {
             console.log(ev);
@@ -154,33 +174,42 @@ let grid = new Vue({
             console.log("salvos dragg", this.id);
         },
         drop(ev) {
-            document.querySelectorAll(".shipGrid td").forEach(cell => cell.classList.remove("ships"));
-            let letters = ev.target.id.substr(0, 1);
-            let numbers = ev.target.id.substr(1, 2);
-            console.log(letters)
-            ev.target.append(document.getElementById(this.id));
-            console.log(this.id)
-            for (let u = 0; u < this.ship[this.id].size; u++) {
-                document.getElementById(letters + (Number(numbers) + u)).classList.add("ships");
-                if (this.ship[this.id].size == 5) {
-                    this.ship[0].myLocation.push(letters + (Number(numbers) + u));
+
+
+            if (!this.overlap) {
+                console.log("drop")
+
+
+                document.querySelectorAll(".shipGrid td").forEach(cell => cell.classList.remove("ships"));
+                let letters = ev.target.id.substr(0, 1);
+                let numbers = ev.target.id.substr(1, 2);
+                console.log(letters)
+                ev.target.append(document.getElementById(this.id).parentNode);// get the divs Id
+                console.log(this.id)
+
+                for (let u = 0; u < this.ship[this.id].size; u++) {
+                    document.getElementById(letters + (Number(numbers) + u)).classList.add("ships");
+                    if (this.ship[this.id].size == 5) {
+                        this.ship[0].myLocation.push(letters + (Number(numbers) + u));
+                    }
+                    if (this.ship[this.id].size == 4) {
+                        this.ship[1].myLocation.push(letters + (Number(numbers) + u));
+                    }
+                    if (this.ship[this.id].size == 3) {
+                        this.ship[2].myLocation.push(letters + (Number(numbers) + u));
+                    }
+                    if (this.ship[this.id].size == 3) {
+                        this.ship[3].myLocation.push(letters + (Number(numbers) + u));
+                    }
+                    if (this.ship[this.id].size == 2) {
+                        this.ship[4].myLocation.push(letters + (Number(numbers) + u));
+                    }
+                    console.log(letters + (Number(numbers) + u));
+
                 }
-                if (this.ship[this.id].size == 4) {
-                    this.ship[1].myLocation.push(letters + (Number(numbers) + u));
-                }
-                if (this.ship[this.id].size == 3) {
-                    this.ship[2].myLocation.push(letters + (Number(numbers) + u));
-                }
-                if (this.ship[this.id].size == 3) {
-                    this.ship[3].myLocation.push(letters + (Number(numbers) + u));
-                }
-                if (this.ship[this.id].size == 2) {
-                    this.ship[4].myLocation.push(letters + (Number(numbers) + u));
-                }
-                console.log(letters + (Number(numbers) + u));
+                this.countShips();
+                this.id = null;
             }
-            this.countShips();
-            this.id = null;
         },
         salvoDrop(ev) {
             document.querySelectorAll(".salvoLoc td").forEach(cell => cell.classList.remove("salvos"));
